@@ -16,8 +16,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        finish();
         Log.i("Click", "Iniciar sesion");
     }
 }

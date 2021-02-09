@@ -16,8 +16,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
+        Intent iniciarRegistro = new Intent(this, RegisterActivity.class);
+        startActivity(iniciarRegistro);
         Log.i("Click", "Registrarse");
     }
 }
