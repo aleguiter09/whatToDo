@@ -27,8 +27,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void iniciarSesion() {
-        Intent iniciarMainScreen = new Intent(this, MainScreenActivity.class);
-        startActivity(iniciarMainScreen);
+        //Intent iniciarMainScreen = new Intent(this, MainScreenActivity.class);
+        //startActivity(iniciarMainScreen);
         Log.i("Click btn", "Has apretado Iniciar Sesion");
     }
 
