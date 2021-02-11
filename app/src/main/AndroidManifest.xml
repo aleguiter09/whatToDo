@@ -9,13 +9,55 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatToDo">
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".CreateEventActivity"
+            android:parentActivityName=".menus.MenuOrganizerActivity"></activity>
+        <activity
+            android:name=".menus.MenuOrganizerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".menus.OrganizerHomeActivity"
+            android:parentActivityName=".menus.MenuOrganizerActivity"></activity>
+        <activity
+            android:name=".menus.MenuParticipantActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".menus.ParticipantHomeActivity"
+            android:parentActivityName=".menus.MenuParticipantActivity" />
+        <activity
+            android:name=".menus.HomeActivity"
+            android:parentActivityName=".menus.MenuActivity">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".menus.MenuActivity" />
+        </activity>
+        <activity
+            android:name=".menus.MenuActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".RegisterActivity"
+            android:parentActivityName=".menus.MenuActivity">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".menus.MenuActivity" />
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:parentActivityName=".menus.MenuActivity">
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".menus.MenuActivity" />
         </activity>
     </application>
 

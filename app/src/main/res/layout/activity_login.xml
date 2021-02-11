@@ -8,16 +8,30 @@
     tools:context=".LoginActivity"
     android:background="@color/white">
 
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:title=" "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/image"
         android:layout_width="240dp"
         android:layout_height="240dp"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="24dp"
         android:contentDescription="@string/logo_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarLogin"
         app:srcCompat="@drawable/logo" />
 
     <EditText
@@ -93,4 +107,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnIniciarSesion"
         android:focusable="true" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

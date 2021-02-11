@@ -17,4 +17,35 @@
     <string name="textViewYaTienesUsuario">¿Ya tienes usuario?</string>
     <string name="textViewInicioSesion">Inicia sesión</string>
 
+    <!-- CreateEventActivity-->
+    <string name="nombreDelEvento">Nombre del evento</string>
+    <string name="ubicacionButton">Ubicación</string>
+    <string name="fecha">Fecha:</string>
+    <string name="fechaFormat">DD/MM/AAAA</string>
+    <string name="horario">Horario:</string>
+    <string name="inicio">Inicio</string>
+    <string name="fin">Fin</string>
+    <string name="descripcion">Descripción:</string>
+    <string name="descripcionHint">Describe tu evento</string>
+    <string name="crearEventoButton">Crear evento</string>
+
+    <!-- Menu home -->
+    <string name="loginOption">Iniciar sesión</string>
+    <string name="createAccountOption">Crear cuenta</string>
+    <string name="finish">Cerrar aplicación</string>
+
+    <!-- Menu activity Participant -->
+    <string name="searchOption">Buscar eventos</string>
+    <string name="ticketsOption">Entradas</string>
+    <string name="passEventosOption">Eventos pasados</string>
+    <string name="configurationOption">Configuración</string>
+    <string name="logoutOption">Cerrar sesión</string>
+
+    <!-- Menu activity Organizer -->
+    <string name="crearEvento">Crear evento</string>
+    <string name="eventosActuales">Eventos actuales</string>
+    <string name="eventosPasados">Eventos pasados</string>
+
+
+
 </resources>
