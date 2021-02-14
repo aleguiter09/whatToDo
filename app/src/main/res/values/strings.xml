@@ -53,6 +53,8 @@
 
     <!-- Firebase -->
     <string name="google_maps_key">AIzaSyAY_DTQp0aozEhWKLX59wH7_eYxEnacwPk</string>
+    <string name="channel_name">Canal What To Do</string>
+    <string name="channel_description">RECORDATORIO EVENTO</string>
 
 
 
