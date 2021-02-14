@@ -3,7 +3,7 @@
 
     <!-- LoginActivity (MainActivity) -->
     <string name="logo_description">Logo de la applicacion What To Do</string>
-    <string name="placeholder_usuario">Usuario</string>
+    <string name="placeholder_usuario">E-mail</string>
     <string name="placeholder_password">Contraseña</string>
     <string name="btnIniciarSesion">Iniciar Sesión</string>
     <string name="textViewNoTienesUsuario">¿No tienes usuario?</string>

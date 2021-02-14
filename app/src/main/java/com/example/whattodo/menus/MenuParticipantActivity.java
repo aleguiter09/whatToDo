@@ -15,6 +15,7 @@ import com.example.whattodo.LoginActivity;
 import com.example.whattodo.R;
 import com.example.whattodo.RegisterActivity;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MenuParticipantActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -22,11 +23,14 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
     NavigationView menuNavigationViewParticipant;
     Toolbar participantToolbar;
     ActionBarDrawerToggle actionBarDrawerToggle;
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_participant);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         participantToolbar = findViewById(R.id.toolbarParticipant);
         menuDrawerLayoutParticipant = findViewById(R.id.menuDrawerLayoutParticipant);
@@ -63,7 +67,11 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
                 finishAffinity();
                 return true;
             case R.id.cerrarSesion:
-                finishAffinity();
+                //finishAffinity();
+                firebaseAuth.signOut();
+                Intent volverAlInicio = new Intent(MenuParticipantActivity.this, LoginActivity.class);
+                startActivity(volverAlInicio);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
