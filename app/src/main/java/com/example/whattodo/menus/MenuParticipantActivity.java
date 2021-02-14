@@ -53,21 +53,14 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.buscarEventos:
-                Intent registrarse = new Intent(this, RegisterActivity.class);
-                startActivity(registrarse);
                 return true;
             case R.id.entradas:
-                Intent login = new Intent(this, LoginActivity.class);
-                startActivity(login);
                 return true;
             case R.id.eventosPasados:
-                finishAffinity();
                 return true;
             case R.id.configuracion:
-                finishAffinity();
                 return true;
             case R.id.cerrarSesion:
-                //finishAffinity();
                 firebaseAuth.signOut();
                 Intent volverAlInicio = new Intent(MenuParticipantActivity.this, LoginActivity.class);
                 startActivity(volverAlInicio);

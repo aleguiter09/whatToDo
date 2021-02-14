@@ -90,17 +90,12 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
                 startActivity(createEvent);
                 return true;
             case R.id.eventosActuales:
-                Intent login = new Intent(this, LoginActivity.class);
-                startActivity(login);
                 return true;
             case R.id.eventosPasadosOrganizer:
-                finishAffinity();
                 return true;
             case R.id.configuracionOrganizer:
-                finishAffinity();
                 return true;
             case R.id.cerrarSesion:
-                //finishAffinity();
                 firebaseAuth.signOut();
                 Intent volverAlInicio = new Intent(MenuOrganizerActivity.this, LoginActivity.class);
                 startActivity(volverAlInicio);
