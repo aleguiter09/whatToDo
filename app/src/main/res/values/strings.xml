@@ -46,6 +46,9 @@
     <string name="eventosActuales">Eventos actuales</string>
     <string name="eventosPasados">Eventos pasados</string>
 
+    <!-- Firebase -->
+    <string name="google_maps_key">AIzaSyAY_DTQp0aozEhWKLX59wH7_eYxEnacwPk</string>
+
 
 
 </resources>
