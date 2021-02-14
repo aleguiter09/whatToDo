@@ -22,6 +22,7 @@ import com.example.whattodo.RegisterActivity;
 import com.example.whattodo.SerieRecyclerAdapter;
 import com.example.whattodo.model.Evento;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,11 +36,14 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
     SerieRecyclerAdapter adapter;
     RecyclerView recycler;
 
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_organizer);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         organizerToolbar = findViewById(R.id.toolbarOrganizer);
         menuDrawerLayoutOrganizer = findViewById(R.id.menuDrawerLayoutOrganizer);
@@ -86,17 +90,16 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
                 startActivity(createEvent);
                 return true;
             case R.id.eventosActuales:
-                Intent login = new Intent(this, LoginActivity.class);
-                startActivity(login);
                 return true;
             case R.id.eventosPasadosOrganizer:
-                finishAffinity();
                 return true;
             case R.id.configuracionOrganizer:
-                finishAffinity();
                 return true;
             case R.id.cerrarSesion:
-                finishAffinity();
+                firebaseAuth.signOut();
+                Intent volverAlInicio = new Intent(MenuOrganizerActivity.this, LoginActivity.class);
+                startActivity(volverAlInicio);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

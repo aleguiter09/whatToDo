@@ -15,6 +15,7 @@ import com.example.whattodo.LoginActivity;
 import com.example.whattodo.R;
 import com.example.whattodo.RegisterActivity;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MenuParticipantActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -22,11 +23,14 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
     NavigationView menuNavigationViewParticipant;
     Toolbar participantToolbar;
     ActionBarDrawerToggle actionBarDrawerToggle;
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_participant);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         participantToolbar = findViewById(R.id.toolbarParticipant);
         menuDrawerLayoutParticipant = findViewById(R.id.menuDrawerLayoutParticipant);
@@ -49,21 +53,18 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.buscarEventos:
-                Intent registrarse = new Intent(this, RegisterActivity.class);
-                startActivity(registrarse);
                 return true;
             case R.id.entradas:
-                Intent login = new Intent(this, LoginActivity.class);
-                startActivity(login);
                 return true;
             case R.id.eventosPasados:
-                finishAffinity();
                 return true;
             case R.id.configuracion:
-                finishAffinity();
                 return true;
             case R.id.cerrarSesion:
-                finishAffinity();
+                firebaseAuth.signOut();
+                Intent volverAlInicio = new Intent(MenuParticipantActivity.this, LoginActivity.class);
+                startActivity(volverAlInicio);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

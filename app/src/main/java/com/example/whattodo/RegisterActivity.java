@@ -84,8 +84,6 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(context, "Debe seleccionar si es asistente u organizador", Toast.LENGTH_SHORT).show();
                     }
                 }
-
-
             }
         });
     }
