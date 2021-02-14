@@ -51,5 +51,9 @@
     <string name="sab_nov_28_22_00_hs">SAB, NOV 28 - 22:00 Hs</string>
     <string name="todo">TODO</string>
 
+    <!-- Firebase -->
+    <string name="google_maps_key">AIzaSyAY_DTQp0aozEhWKLX59wH7_eYxEnacwPk</string>
+
+
 
 </resources>
