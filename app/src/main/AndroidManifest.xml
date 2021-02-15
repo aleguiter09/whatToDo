@@ -9,14 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatToDo">
-        <activity android:name=".CreateEventActivity"
-            android:parentActivityName=".menus.MenuOrganizerActivity"></activity>
+        <activity android:name=".MapActivity"></activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".CreateEventActivity"
+            android:parentActivityName=".menus.MenuOrganizerActivity" />
         <activity
             android:name=".menus.MenuOrganizerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".menus.OrganizerHomeActivity"
-            android:parentActivityName=".menus.MenuOrganizerActivity"></activity>
+            android:parentActivityName=".menus.MenuOrganizerActivity" />
         <activity
             android:name=".menus.MenuParticipantActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -30,7 +37,7 @@
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="com.google.android.geo.API_KEY"
-                android:value="@string/google_maps_key"/>
+                android:value="@string/google_maps_key" />
         </activity>
         <activity
             android:name=".menus.MenuActivity"
@@ -59,6 +66,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".menus.MenuActivity" />
         </activity>
+
         <service
             android:name=".MyFirebaseMessagingService"
             android:directBootAware="true"
