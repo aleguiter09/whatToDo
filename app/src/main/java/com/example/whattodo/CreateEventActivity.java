@@ -63,8 +63,7 @@ public class CreateEventActivity extends AppCompatActivity {
         btnCrearEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(validarCampos() && checkEventExist()) guardarEvento();
-                else nombreEvento.setError("Ese nombre ya existe");
+                if(validarCampos()) guardarEvento();
             }
         });
 
@@ -82,7 +81,10 @@ public class CreateEventActivity extends AppCompatActivity {
         if(nombreEvento_str.isEmpty()){
             nombreEvento.setError("Campo obligatorio");
             retorno = false;
-        }
+        }/*else if(checkEventExist()){
+            nombreEvento.setError("Ese evento ya existe");
+            retorno = false;
+        }*/
 
         if(fechaEvento_str.isEmpty()){
             fechaEvento.setError("Campo obligatorio");
