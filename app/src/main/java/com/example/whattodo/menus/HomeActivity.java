@@ -24,17 +24,12 @@ import com.google.firebase.database.ValueEventListener;
 public class HomeActivity extends AppCompatActivity {
 
     Toolbar homeToolbar;
-    FirebaseAuth firebaseAuth;
-    DatabaseReference databaseReference;
-    Boolean esAsistente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //firebaseAuth = FirebaseAuth.getInstance();
-        //databaseReference = FirebaseDatabase.getInstance().getReference();
 
         homeToolbar = findViewById(R.id.homeToolbar);
         setSupportActionBar(homeToolbar);
@@ -66,33 +61,4 @@ public class HomeActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-   /* @Override
-    protected void onStart() {
-        super.onStart();
-        if(firebaseAuth.getCurrentUser()!=null){
-            getUserInfo();
-            if(esAsistente){
-                Intent iniciarHomeAsistente = new Intent(this, ParticipantHomeActivity.class);
-                startActivity(iniciarHomeAsistente);
-            }else{
-                Intent iniciarHomeOrganizador = new Intent(this, OrganizerHomeActivity.class);
-                startActivity(iniciarHomeOrganizador);
-            }
-        }
-    }
-
-    public void getUserInfo(){
-        String id = firebaseAuth.getCurrentUser().getUid();
-        databaseReference.child("Users").child(id).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) esAsistente = (Boolean) snapshot.child("esAsistente").getValue();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }*/
 }

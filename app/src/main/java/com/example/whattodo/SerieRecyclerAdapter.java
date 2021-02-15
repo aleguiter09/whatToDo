@@ -39,9 +39,6 @@ import java.util.List;
                 listaDescripciones.add(events.get(i).getDescripcion());
                 listaFechas.add(events.get(i).getFechaInicio().toString());
             }
-
-
-
         }
 
         @Override

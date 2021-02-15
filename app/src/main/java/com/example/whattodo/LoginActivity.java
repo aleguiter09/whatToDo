@@ -19,6 +19,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -28,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
     String usuario_str, password_str;
     Context context;
     FirebaseAuth firebaseAuth;
+    DatabaseReference databaseReference;
+    boolean esAsistente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +42,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
          context = this;
-
          firebaseAuth = FirebaseAuth.getInstance();
+         final FirebaseDatabase database = FirebaseDatabase.getInstance();
+         databaseReference = FirebaseDatabase.getInstance().getReference();
 
          btnIniciarSesion = (Button) findViewById(R.id.btnIniciarSesion);
          usuario = (EditText) findViewById(R.id.editTextName);
@@ -72,15 +80,40 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void iniciarSesion() {
-        Intent iniciarHome = new Intent(this, MenuOrganizerActivity.class);
-        startActivity(iniciarHome);
-        Log.i("Click btn", "Has apretado Iniciar Sesion");
-    }
-
     public void onClickRegistrarse(View view) {
         Intent iniciarRegistro = new Intent(this, RegisterActivity.class);
         startActivity(iniciarRegistro);
         Log.i("Click", "Has apretado el text view Registrarse");
+    }
+
+    public void iniciarSesion() {
+        if(firebaseAuth.getCurrentUser()!=null){
+            getUserInfo();
+            Log.i("Inicio sesion", "inicio");
+            if(esAsistente) {
+                Log.i("Inicio sesion", "ES ASISTENTE");
+                Intent iniciarHomeAsistente = new Intent(this, MenuParticipantActivity.class);
+                startActivity(iniciarHomeAsistente);
+            }
+            else {
+                Log.i("Inicio sesion", "ES ORGANIZADOR");
+                Intent iniciarHomeOrganizador = new Intent(this, MenuOrganizerActivity.class);
+                startActivity(iniciarHomeOrganizador);
+            }
+        }
+    }
+
+    public void getUserInfo(){
+        String id = firebaseAuth.getCurrentUser().getUid();
+        databaseReference.child("Users").child(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.i("SNAPSHOT", snapshot.child("esAsistente").getValue().toString());
+                if(snapshot.exists()) esAsistente = (boolean) snapshot.child("esAsistente").getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
     }
 }

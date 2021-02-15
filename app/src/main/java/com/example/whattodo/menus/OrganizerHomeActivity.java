@@ -18,7 +18,6 @@ public class OrganizerHomeActivity extends AppCompatActivity {
 
     Toolbar organizerToolbar;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +25,5 @@ public class OrganizerHomeActivity extends AppCompatActivity {
 
         organizerToolbar = findViewById(R.id.toolbarOrganizer);
         setSupportActionBar(organizerToolbar);
-
-
     }
 }

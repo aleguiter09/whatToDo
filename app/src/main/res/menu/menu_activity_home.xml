@@ -13,7 +13,6 @@
         android:icon="@drawable/ic_register"
         android:title="@string/createAccountOption" />
 
-
     <item android:title=" " />
     <item android:title=" " />
     <item android:title=" " />

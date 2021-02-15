@@ -62,7 +62,7 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
                 return true;
             case R.id.cerrarSesion:
                 firebaseAuth.signOut();
-                Intent volverAlInicio = new Intent(MenuParticipantActivity.this, LoginActivity.class);
+                Intent volverAlInicio = new Intent(MenuParticipantActivity.this, MenuActivity.class);
                 startActivity(volverAlInicio);
                 finish();
                 return true;
