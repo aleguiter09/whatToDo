@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -37,6 +38,8 @@ public class CreateEventActivity extends AppCompatActivity {
     String nombreOrganizador;
     Context context;
     boolean retorno = false;
+    static final int REQUEST_CODE = 222;
+    static final int REQUEST_CODE_MAPS = 111;
 
 
     @Override
@@ -64,6 +67,14 @@ public class CreateEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(validarCampos()) guardarEvento();
+            }
+        });
+
+        final Intent ubicacionMapa = new Intent(this, MapActivity.class);
+        btnUbicacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(ubicacionMapa, REQUEST_CODE_MAPS);
             }
         });
 
