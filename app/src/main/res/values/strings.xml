@@ -3,14 +3,14 @@
 
     <!-- LoginActivity (MainActivity) -->
     <string name="logo_description">Logo de la applicacion What To Do</string>
-    <string name="placeholder_usuario">E-mail</string>
+    <string name="placeholder_usuario">Usuario</string>
     <string name="placeholder_password">Contraseña</string>
     <string name="btnIniciarSesion">Iniciar Sesión</string>
     <string name="textViewNoTienesUsuario">¿No tienes usuario?</string>
     <string name="textViewRegistrate">Registrate</string>
 
     <!-- RegisterActivity -->
-    <string name="placerholder_email">E-mail</string>
+    <string name="placeholder_email">E-mail</string>
     <string name="radioButtonAsistente">Soy un asistente</string>
     <string name="radioButtonOrganizador">Soy un organizador</string>
     <string name="btnRegistrarse">Registrarse</string>

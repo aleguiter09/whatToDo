@@ -8,8 +8,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.whattodo.LoginActivity;
 import com.example.whattodo.R;
@@ -24,6 +27,8 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
     Toolbar participantToolbar;
     ActionBarDrawerToggle actionBarDrawerToggle;
     FirebaseAuth firebaseAuth;
+    View header;
+    TextView headerText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +41,17 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
         menuDrawerLayoutParticipant = findViewById(R.id.menuDrawerLayoutParticipant);
         menuNavigationViewParticipant = findViewById(R.id.menuNavigationViewParticipant);
 
+        header = menuNavigationViewParticipant.getHeaderView(0);
+        headerText = (TextView) header.findViewById(R.id.headerText);
+
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, menuDrawerLayoutParticipant, participantToolbar, 0, 0);
         menuDrawerLayoutParticipant.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         actionBarDrawerToggle.syncState();
         menuNavigationViewParticipant.setNavigationItemSelectedListener(this);
+
+        String valor = getIntent().getStringExtra("usuario");
+        headerText.setText("Hola, " + valor +"!");
     }
 
     @Override
