@@ -8,9 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,7 +23,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,12 +32,11 @@ public class CreateEventActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     FirebaseAuth firebaseAuth;
     Button btnUbicacion, btnCrearEvento;
-    EditText nombreEvento, fechaEvento, inicioEvento, finEvento, descripcion;
-    String nombreEvento_str, fechaEvento_str, inicioEvento_str, finEvento_str, descripcion_str;
-    String nombreOrganizador;
+    EditText nombreEvento, fechaEvento, inicioEvento, finEvento, descripcion, ubicacionTV;
+    String nombreEvento_str, fechaEvento_str, inicioEvento_str, finEvento_str, descripcion_str, ubicacion_str;
+    String nombreOrganizador, latitudGuardar, longitudGuardar;
     Context context;
     boolean retorno = false;
-    static final int REQUEST_CODE = 222;
     static final int REQUEST_CODE_MAPS = 111;
 
 
@@ -60,6 +58,7 @@ public class CreateEventActivity extends AppCompatActivity {
         inicioEvento = (EditText) findViewById(R.id.editTextInicio);
         finEvento = (EditText) findViewById(R.id.editTextFin);
         descripcion = (EditText) findViewById(R.id.editTextDesc);
+        ubicacionTV = (EditText) findViewById(R.id.ubicacionCrearEvento);
 
         context = this;
 
@@ -88,6 +87,7 @@ public class CreateEventActivity extends AppCompatActivity {
         inicioEvento_str = inicioEvento.getText().toString();
         finEvento_str = finEvento.getText().toString();
         descripcion_str = descripcion.getText().toString();
+        ubicacion_str = ubicacionTV.getText().toString();
 
         if(nombreEvento_str.isEmpty()){
             nombreEvento.setError("Campo obligatorio");
@@ -114,6 +114,11 @@ public class CreateEventActivity extends AppCompatActivity {
 
         if(descripcion_str.isEmpty()){
             descripcion.setError("Campo obligatorio");
+            retorno = false;
+        }
+
+        if(ubicacion_str.isEmpty()){
+            ubicacionTV.setError("Campo obligatorio");
             retorno = false;
         }
 
@@ -144,6 +149,9 @@ public class CreateEventActivity extends AppCompatActivity {
         map.put("inicioEvento", inicioEvento_str);
         map.put("finEvento", finEvento_str);
         map.put("descripcion", descripcion_str);
+        map.put("ubicacion", ubicacion_str);
+        map.put("latitud", latitudGuardar);
+        map.put("longitud", longitudGuardar);
 
         databaseReference.child("Events").child(nombreEvento_str).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -154,6 +162,7 @@ public class CreateEventActivity extends AppCompatActivity {
                     inicioEvento.setText(null);
                     finEvento.setText(null);
                     descripcion.setText(null);
+                    ubicacionTV.setText(null);
                     Toast.makeText(context, "El evento ha sido registrado con éxito!", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(context, "No se pudieron crear los datos correctamente", Toast.LENGTH_SHORT).show();
@@ -180,6 +189,24 @@ public class CreateEventActivity extends AppCompatActivity {
         });
 
         return retorno;
+    }
+
+    @Override
+    protected void onActivityResult(int request_code, int result_code, Intent data) {
+        super.onActivityResult(request_code, result_code, data);
+
+        if(request_code == REQUEST_CODE_MAPS) {
+            if (result_code == RESULT_OK) {
+
+                ubicacionTV.setText(data.getStringExtra("dirección"));
+                latitudGuardar = data.getStringExtra("latitud");
+                longitudGuardar = data.getStringExtra("longitud");
+
+            }else if(result_code == RESULT_CANCELED){
+                System.out.println("NO FUNCIONÓ EL MAPA");
+            }
+        }
+
     }
 
 }

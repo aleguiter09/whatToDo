@@ -8,20 +8,14 @@
     android:orientation="vertical"
     android:background="@color/cardview_dark_background"
     tools:context=".MapActivity">
+
     <TextView
-        android:id="@+id/Latitud"
+        android:id="@+id/DireccionTV"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="Latitud: "
+        android:layout_height="73dp"
+        android:text="Dirección:"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/white" />
-    <TextView
-        android:id="@+id/Longitud"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="Longitud: "
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/white" />
+        android:textColor="@color/blanco" />
 
     <Button
         android:id="@+id/confirmar_ubicacion"
@@ -30,6 +24,7 @@
         android:text="Confirmar ubicación"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/white"
+        android:layout_marginTop="10dp"
         tools:background="@color/rojoBotones" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
