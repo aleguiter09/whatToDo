@@ -23,6 +23,11 @@ import com.example.whattodo.SerieRecyclerAdapter;
 import com.example.whattodo.model.Evento;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,8 +40,10 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
     ActionBarDrawerToggle actionBarDrawerToggle;
     SerieRecyclerAdapter adapter;
     RecyclerView recycler;
-
     FirebaseAuth firebaseAuth;
+    DatabaseReference databaseReference;
+    ArrayList<Evento> eventos = new ArrayList<Evento>();
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,9 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
         setContentView(R.layout.activity_menu_organizer);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        context = this;
 
         organizerToolbar = findViewById(R.id.toolbarOrganizer);
         menuDrawerLayoutOrganizer = findViewById(R.id.menuDrawerLayoutOrganizer);
@@ -58,21 +68,9 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
 
         recycler = (RecyclerView) findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        // INGRESO DE DATOS - OBTENER DE LA BDD LOS EVENTOS YA CARGADOS PARA MOSTRAR
-        Date inicio = new Date(2020, 06, 11);
 
-        Evento e1 = new Evento("EL FANTASMA DE LA OPERA","Obra de teatro basada en hechos reales.","22:00",inicio);
-        Evento e2 = new Evento("TECNOMATE","Tecnologia de todo tipo.","20:00",inicio);
-        Evento e3 = new Evento("CIENCIA EN NUESTRO HOGAR","Ciencia dia a dia","23:00",inicio);
-        ArrayList<Evento> eventos = new ArrayList<Evento>();
-        eventos.add(e1);
-        eventos.add(e2);
-        eventos.add(e3);
+        getEventsFromFirebase();
 
-        //INGRESO DE DATOS
-
-        SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(this));
-        recycler.setAdapter(adapter);
     }
 
     @Override
@@ -104,5 +102,41 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void getEventsFromFirebase(){
+        databaseReference.child("Events").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+                if(snapshot.exists()){
+                    for(DataSnapshot ds: snapshot.getChildren()){
+                        String nombreEvento = ds.child("nombreEvento").getValue().toString();
+                        String descripcion = ds.child("descripcion").getValue().toString();
+                        String inicioEvento = ds.child("inicioEvento").getValue().toString();
+                        String finEvento = ds.child("finEvento").getValue().toString();
+                        String fechaEvento = ds.child("fechaEvento").getValue().toString();
+                        String ubicacion = ds.child("ubicacion").getValue().toString();
+                        String latitud = ds.child("latitud").getValue().toString();
+                        String longitud = ds.child("longitud").getValue().toString();
+                        String idOrganizador = ds.child("idOrganizador").getValue().toString();
+
+
+                        Evento e = new Evento(nombreEvento, descripcion, inicioEvento, finEvento, fechaEvento, idOrganizador, ubicacion, latitud, longitud);
+                        eventos.add(e);
+                    }
+
+                    SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context));
+                    recycler.setAdapter(adapter);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

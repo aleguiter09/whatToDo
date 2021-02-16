@@ -5,28 +5,57 @@ import java.util.Date;
 
 public class Evento {
 
-    private String nombre, descripcion, horarioInicio, horarioFin;
-    private Date fechaInicio, fechaFin;
+    private String nombre, descripcion, horarioInicio, horarioFin, fecha;
+    private String idOrganizador;
+    private String ubicacion, latitud, longitud;
     private Organizador organizador;
     private ArrayList<Participante> participantes;
 
-
-    public Evento(String nombre, String descripcion, String horarioInicio, Date fechaInicio) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.horarioInicio = horarioInicio;
-        this.fechaInicio = fechaInicio;
-    }
-
-    public Evento(String nombre, String descripcion, String horarioInicio, String horarioFin, Date fechaInicio, Date fechaFin, Organizador organizador, ArrayList<Participante> participantes) {
+    public Evento(String nombre, String descripcion, String horarioInicio, String horarioFin, String fecha, String idOrganizador, String ubicacion, String latitud, String longitud, Organizador organizador, ArrayList<Participante> participantes) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.horarioInicio = horarioInicio;
         this.horarioFin = horarioFin;
-        this.fechaInicio = fechaInicio;
-        this.fechaFin = fechaFin;
+        this.fecha = fecha;
+        this.idOrganizador = idOrganizador;
+        this.ubicacion = ubicacion;
+        this.latitud = latitud;
+        this.longitud = longitud;
         this.organizador = organizador;
         this.participantes = participantes;
+    }
+
+    //este es sin organizador y sin participantes
+    public Evento(String nombre, String descripcion, String horarioInicio, String horarioFin, String fecha, String idOrganizador, String ubicacion, String latitud, String longitud) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.horarioInicio = horarioInicio;
+        this.horarioFin = horarioFin;
+        this.fecha = fecha;
+        this.idOrganizador = idOrganizador;
+        this.ubicacion = ubicacion;
+        this.latitud = latitud;
+        this.longitud = longitud;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public String getIdOrganizador() {
+        return idOrganizador;
+    }
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public String getLatitud() {
+        return latitud;
+    }
+
+    public String getLontitud() {
+        return longitud;
     }
 
     public String getNombre() {
@@ -43,14 +72,6 @@ public class Evento {
 
     public String getHorarioFin() {
         return horarioFin;
-    }
-
-    public Date getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public Date getFechaFin() {
-        return fechaFin;
     }
 
     public Organizador getOrganizador() {
@@ -77,12 +98,24 @@ public class Evento {
         this.horarioFin = horarioFin;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
-    public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
+    public void setIdOrganizador(String idOrganizador) {
+        this.idOrganizador = idOrganizador;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+
+    public void setLontitud(String longitud) {
+        this.longitud = longitud;
     }
 
     public void setOrganizador(Organizador organizador) {

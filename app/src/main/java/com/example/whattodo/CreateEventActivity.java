@@ -129,21 +129,9 @@ public class CreateEventActivity extends AppCompatActivity {
 
         String id = firebaseAuth.getCurrentUser().getUid();
 
-        databaseReference.child("Users").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) nombreOrganizador = snapshot.child("name").getValue().toString();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         Map<String, Object> map = new HashMap<>();
         map.put("idOrganizador", id);
-        map.put("nombreOrganizador", nombreOrganizador);
         map.put("nombreEvento", nombreEvento_str);
         map.put("fechaEvento", fechaEvento_str);
         map.put("inicioEvento", inicioEvento_str);
@@ -153,7 +141,7 @@ public class CreateEventActivity extends AppCompatActivity {
         map.put("latitud", latitudGuardar);
         map.put("longitud", longitudGuardar);
 
-        databaseReference.child("Events").child(nombreEvento_str).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+        databaseReference.child("Events").push().setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
@@ -208,5 +196,7 @@ public class CreateEventActivity extends AppCompatActivity {
         }
 
     }
+
+
 
 }
