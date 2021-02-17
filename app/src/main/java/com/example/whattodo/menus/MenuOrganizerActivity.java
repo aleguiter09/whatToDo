@@ -14,6 +14,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.whattodo.CreateEventActivity;
 import com.example.whattodo.LoginActivity;
@@ -44,6 +46,8 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
     DatabaseReference databaseReference;
     ArrayList<Evento> eventos = new ArrayList<Evento>();
     Context context;
+    View header;
+    TextView headerText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,11 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
         actionBarDrawerToggle.syncState();
         menuNavigationViewOrganizer.setNavigationItemSelectedListener(this);
 
+        header = menuNavigationViewOrganizer.getHeaderView(0);
+        headerText = (TextView) header.findViewById(R.id.headerText);
+
+        String valor = getIntent().getStringExtra("usuario");
+        headerText.setText("Hola, " + valor +"!");
 
         recycler = (RecyclerView) findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
     boolean esAsistente;
+    String nombreUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,20 +48,32 @@ public class LoginActivity extends AppCompatActivity {
          databaseReference = FirebaseDatabase.getInstance().getReference();
 
          btnIniciarSesion = (Button) findViewById(R.id.btnIniciarSesion);
+         btnIniciarSesion.setEnabled(false);
+         btnIniciarSesion.setFocusable(true);
          usuario = (EditText) findViewById(R.id.editTextName);
          password = (EditText) findViewById(R.id.editTextPassword);
+
+         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+             @Override
+             public void onFocusChange(View v, boolean hasFocus) {
+                 if(!hasFocus) {
+                     usuario_str = usuario.getText().toString();
+                     password_str = password.getText().toString();
+
+                     if(!usuario_str.isEmpty() && !password_str.isEmpty()) {
+                         loginUser();
+                         btnIniciarSesion.setEnabled(true);
+                     }
+                     else
+                         Toast.makeText(context, "Debe completar los campos para iniciar sesión", Toast.LENGTH_SHORT).show();
+                 }
+             }
+         });
 
          btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 usuario_str = usuario.getText().toString();
-                 password_str = password.getText().toString();
-
-                 if(!usuario_str.isEmpty() && !password_str.isEmpty()){
-                     loginUser();
-                 }else {
-                     Toast.makeText(context, "Debe completar los campos para iniciar sesión", Toast.LENGTH_SHORT).show();
-                 }
+                 iniciarSesion();
              }
          });
 
@@ -72,10 +85,10 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth.signInWithEmailAndPassword(usuario_str, password_str).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()) iniciarSesion();
-                else{
+                if(task.isSuccessful())
+                    getUserInfo();
+                else
                     Toast.makeText(context, "No se pudo iniciar sesión, compruebe sus datos", Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }
@@ -88,16 +101,17 @@ public class LoginActivity extends AppCompatActivity {
 
     public void iniciarSesion() {
         if(firebaseAuth.getCurrentUser()!=null){
-            getUserInfo();
             Log.i("Inicio sesion", "inicio");
             if(esAsistente) {
                 Log.i("Inicio sesion", "ES ASISTENTE");
                 Intent iniciarHomeAsistente = new Intent(this, MenuParticipantActivity.class);
+                iniciarHomeAsistente.putExtra("usuario", nombreUsuario);
                 startActivity(iniciarHomeAsistente);
             }
             else {
                 Log.i("Inicio sesion", "ES ORGANIZADOR");
                 Intent iniciarHomeOrganizador = new Intent(this, MenuOrganizerActivity.class);
+                iniciarHomeOrganizador.putExtra("usuario", nombreUsuario);
                 startActivity(iniciarHomeOrganizador);
             }
         }
@@ -109,7 +123,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.i("SNAPSHOT", snapshot.child("esAsistente").getValue().toString());
-                if(snapshot.exists()) esAsistente = (boolean) snapshot.child("esAsistente").getValue();
+                if(snapshot.exists()) {
+                    esAsistente = (boolean) snapshot.child("esAsistente").getValue();
+                    nombreUsuario = (String) snapshot.child("name").getValue();
+                }
             }
 
             @Override
