@@ -117,8 +117,6 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
         databaseReference.child("Events").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-
                 if(snapshot.exists()){
                     for(DataSnapshot ds: snapshot.getChildren()){
                         String nombreEvento = ds.child("nombreEvento").getValue().toString();
@@ -135,10 +133,8 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
                         Evento e = new Evento(nombreEvento, descripcion, inicioEvento, finEvento, fechaEvento, idOrganizador, ubicacion, latitud, longitud);
                         eventos.add(e);
                     }
-
                     SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context), context);
                     recycler.setAdapter(adapter);
-
                 }
             }
 
