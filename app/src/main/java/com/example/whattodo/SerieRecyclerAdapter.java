@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,7 +111,7 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
             ubicacionPopUp = (TextView) myDialog.findViewById(R.id.ubicacionPopUP);
 
             descripcionPopup.setText("Descripción: "+descripcion);
-            ubicacionPopUp.setText("Ubicación: "+ubicacion);
+            ubicacionPopUp.setText(Html.fromHtml("Ubicación: <u>"+ubicacion+"</u>"));
 
             txt_cerrar.setOnClickListener(new View.OnClickListener() {
                 @Override
