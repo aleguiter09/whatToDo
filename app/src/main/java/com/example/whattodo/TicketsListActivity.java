@@ -1,5 +1,6 @@
 package com.example.whattodo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +12,12 @@ import android.os.Bundle;
 import com.example.whattodo.model.Evento;
 import com.example.whattodo.model.Participante;
 import com.example.whattodo.model.Ticket;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -18,6 +25,8 @@ public class TicketsListActivity extends AppCompatActivity {
 
     Toolbar toolbarTicketList;
     RecyclerView recycler;
+    FirebaseAuth firebaseAuth;
+    DatabaseReference databaseReference;
     ArrayList<Ticket> tickets = new ArrayList<Ticket>();
     Context context;
 
@@ -26,32 +35,43 @@ public class TicketsListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tickets_list);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
         toolbarTicketList = findViewById(R.id.toolbarTicketList);
         setSupportActionBar(toolbarTicketList);
 
         recycler = (RecyclerView) findViewById(R.id.recyclerTicket);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        Participante p1 = new Participante();
-        Participante p2 = new Participante();
-        Participante p3 = new Participante();
-        Evento e1 = new Evento("Teatro", "", "", "", "", "", "", "", "");
-        Evento e2 = new Evento("Cine", "", "", "", "", "", "", "", "");
-        Evento e3 = new Evento("Broadway", "", "", "", "", "", "", "", "");
-        Ticket t1 = new Ticket(p1, e1);
-        Ticket t2 = new Ticket(p2, e2);
-        Ticket t3 = new Ticket(p3, e3);
-        tickets.add(t1);
-        tickets.add(t2);
-        tickets.add(t3);
-        tickets.add(t1);
-        tickets.add(t2);
-        tickets.add(t3);
-        tickets.add(t1);
-        tickets.add(t2);
-        tickets.add(t3);
+        getTicketsFromFirebase();
+    }
 
-        TicketRecyclerAdapter adapter = new TicketRecyclerAdapter(tickets);
-        recycler.setAdapter(adapter);
+    private void getTicketsFromFirebase() {
+        databaseReference.child("Tickets").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    for(DataSnapshot ds: snapshot.getChildren()) {
+                        String nombreEvento = ds.child("evento").getValue().toString();
+                        String nombreParticipante = ds.child("participante").getValue().toString();
+
+                        Evento e = new Evento();
+                        e.setNombre(nombreEvento);
+                        Participante p = new Participante();
+                        p.setNombre(nombreParticipante);
+                        Ticket t = new Ticket(p, e);
+                        tickets.add(t);
+                    }
+
+                    TicketRecyclerAdapter adapter = new TicketRecyclerAdapter(tickets);
+                    recycler.setAdapter(adapter);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
     }
 }

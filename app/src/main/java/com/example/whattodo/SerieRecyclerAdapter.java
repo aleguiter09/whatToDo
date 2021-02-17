@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,15 +21,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.whattodo.model.Evento;
 import com.example.whattodo.model.Participante;
 import com.example.whattodo.model.Ticket;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-    public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdapter.EventoViewHolder> {
+public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdapter.EventoViewHolder> {
 
         ArrayList<String> listaNombres, listaDescripciones, listaInicioEvento, listaFinEvento, listaFechas, listaUbicaciones;
         ArrayList<Evento> listaEventos;
         Participante participante;
         Dialog myDialog;
+
+        DatabaseReference databaseReference;
 
         Context context;
 
@@ -43,6 +52,8 @@ import java.util.ArrayList;
             listaUbicaciones = new ArrayList<String>();
             myDialog = dialog;
             context = myDialog.getContext();
+
+            databaseReference = FirebaseDatabase.getInstance().getReference();
 
             for(int i=0; i<events.size(); i++){
                 listaNombres.add(events.get(i).getNombre());
@@ -75,7 +86,7 @@ import java.util.ArrayList;
 
             EventoViewHolder (@NonNull View base){
                 super(base);
-                icono= (ImageView) base.findViewById(R.id.eventImage);
+                icono = (ImageView) base.findViewById(R.id.eventImage);
                 nombreTV = (TextView) base.findViewById(R.id.nombreEvento);
                 fecha_horarioTV = (TextView) base.findViewById(R.id.fecha_horario);
                 descripcionTV = (TextView) base.findViewById(R.id.descripcion_pop_up);
@@ -121,7 +132,24 @@ import java.util.ArrayList;
 
             public void guardarTicket(Evento evento) {
                 Ticket t = new Ticket(participante, evento);
-                Log.i("ticket", t.getParticipante().getNombre());
+
+                Map<String, Object> map = new HashMap<>();
+                map.put("idParticipante", t.getParticipante().getId());
+                map.put("participante", t.getParticipante().getNombre());
+                map.put("idEvento", t.getEvento().getIdEvento());
+                map.put("evento", t.getEvento().getNombre());
+
+                databaseReference.child("Tickets").push().setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()) {
+                            Toast.makeText(context, "Tu ticket ha sido generado con éxito!", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(context, "No se ha logrado generar el ticket, intente nuevamente", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
 
             public void ShowPopup(View v, String descripcion, String ubicacion) {

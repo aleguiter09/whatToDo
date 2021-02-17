@@ -4,12 +4,19 @@ import java.util.ArrayList;
 
 public class Participante {
 
-    private String nombre, contrasenia, email;
+    private String id, nombre, contrasenia, email;
     private ArrayList<Evento> eventosFuturos, eventosPasados;
     private ArrayList<Ticket> tickets;
 
     public Participante() {
+    }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNombre() {

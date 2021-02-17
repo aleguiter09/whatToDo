@@ -53,7 +53,7 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
     TextView headerText;
 
     //Strgin nombre
-    String nombreUsuario;
+    String nombreUsuario, idUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +78,7 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
         header = menuNavigationViewParticipant.getHeaderView(0);
         headerText = (TextView) header.findViewById(R.id.headerText);
 
-        nombreUsuario = getIntent().getStringExtra("usuario");
-        headerText.setText("Hola, " + nombreUsuario +"!");
+        getUserInfo();
 
         recycler = (RecyclerView) findViewById(R.id.recyclerEventParticipant);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -132,13 +131,16 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
                         String latitud = ds.child("latitud").getValue().toString();
                         String longitud = ds.child("longitud").getValue().toString();
                         String idOrganizador = ds.child("idOrganizador").getValue().toString();
+                        String idEvento = ds.getKey().toString();
 
                         Evento e = new Evento(nombreEvento, descripcion, inicioEvento, finEvento, fechaEvento, idOrganizador, ubicacion, latitud, longitud);
+                        e.setIdEvento(idEvento);
                         eventos.add(e);
                     }
 
                     Participante p = new Participante();
                     p.setNombre(nombreUsuario);
+                    p.setId(idUsuario);
 
                     SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context), p);
                     recycler.setAdapter(adapter);
@@ -148,5 +150,23 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
+    }
+
+    public void getUserInfo() {
+        String id = firebaseAuth.getCurrentUser().getUid();
+        idUsuario = id;
+        databaseReference.child("Users").child(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    nombreUsuario = (String) snapshot.child("name").getValue();
+                    headerText.setText("Hola, " + nombreUsuario +"!");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
     }
 }
