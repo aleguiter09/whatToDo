@@ -18,7 +18,11 @@
         android:icon="@drawable/ic_events_passed"
         android:title="@string/passEventosOption" />
 
-    <item android:title=" " />
+    <item
+        android:id="@+id/eventosCercanos"
+        android:icon="@drawable/ic_event_near"
+        android:title="@string/eventosCercanosOption" />
+
     <item android:title=" " />
     <item android:title=" " />
 

@@ -69,6 +69,8 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
                 return true;
             case R.id.eventosPasados:
                 return true;
+            case R.id.eventosCercanos:
+                return true;
             case R.id.configuracion:
                 return true;
             case R.id.cerrarSesion:

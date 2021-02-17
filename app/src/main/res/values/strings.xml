@@ -37,6 +37,7 @@
     <!-- Menu activity Participant -->
     <string name="searchOption">Buscar eventos</string>
     <string name="ticketsOption">Entradas</string>
+    <string name="eventosCercanosOption">Eventos cercanos</string>
     <string name="passEventosOption">Eventos pasados</string>
     <string name="configurationOption">Configuración</string>
     <string name="logoutOption">Cerrar sesión</string>
