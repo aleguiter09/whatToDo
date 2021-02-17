@@ -13,7 +13,7 @@
         android:id="@+id/DireccionTV"
         android:layout_width="match_parent"
         android:layout_height="73dp"
-        android:text="Dirección:"
+        android:text="@string/direcci_n"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/blanco" />
 
@@ -21,7 +21,7 @@
         android:id="@+id/confirmar_ubicacion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Confirmar ubicación"
+        android:text="@string/confirmar_ubicaci_n"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/white"
         android:layout_marginTop="10dp"

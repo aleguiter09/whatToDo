@@ -58,6 +58,8 @@
 
     <!--Maps -->
     <string name="google_maps_key">AIzaSyAWcPl_1zEndLvKG4pb2uzFeUZ3lN1kLQc</string>
+    <string name="direcci_n">Dirección:</string>
+    <string name="confirmar_ubicaci_n">Confirmar ubicación</string>
 
 
 </resources>
