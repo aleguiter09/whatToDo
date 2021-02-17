@@ -14,11 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.whattodo.model.Evento;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
 
     public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdapter.EventoViewHolder> {
 
@@ -74,7 +70,7 @@ import java.util.List;
 
             public void asignarDatos(String nombreEvento, String descripcion, String inicioEvento, String finEvento, String fecha, String ubicacion){
                 nombreTV.setText(nombreEvento);
-                fecha_horarioTV.setText(fecha + " - " + inicioEvento + "hs a "+finEvento+"hs");
+                fecha_horarioTV.setText(fecha + " - " + inicioEvento + "hs a "+ finEvento + "hs");
 
                 btnVerDescripcion.setOnClickListener(new View.OnClickListener() {
                     @Override

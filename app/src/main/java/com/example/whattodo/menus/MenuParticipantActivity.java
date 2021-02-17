@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.whattodo.LoginActivity;
 import com.example.whattodo.R;
 import com.example.whattodo.RegisterActivity;
+import com.example.whattodo.TicketsListActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -66,6 +67,8 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
             case R.id.buscarEventos:
                 return true;
             case R.id.entradas:
+                Intent verTickets = new Intent(MenuParticipantActivity.this, TicketsListActivity.class);
+                startActivity(verTickets);
                 return true;
             case R.id.eventosPasados:
                 return true;

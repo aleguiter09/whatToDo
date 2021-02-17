@@ -7,4 +7,8 @@ public class Participante {
     private String nombre, contrasenia, email;
     private ArrayList<Evento> eventosFuturos, eventosPasados;
     private ArrayList<Ticket> tickets;
+
+    public Participante() {
+
+    }
 }
