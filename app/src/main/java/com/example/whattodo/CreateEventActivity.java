@@ -194,7 +194,6 @@ public class CreateEventActivity extends AppCompatActivity {
                 System.out.println("NO FUNCIONÓ EL MAPA");
             }
         }
-
     }
 
 
