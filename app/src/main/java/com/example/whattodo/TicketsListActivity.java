@@ -53,15 +53,17 @@ public class TicketsListActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
                     for(DataSnapshot ds: snapshot.getChildren()) {
-                        String nombreEvento = ds.child("evento").getValue().toString();
-                        String nombreParticipante = ds.child("participante").getValue().toString();
-
-                        Evento e = new Evento();
-                        e.setNombre(nombreEvento);
-                        Participante p = new Participante();
-                        p.setNombre(nombreParticipante);
-                        Ticket t = new Ticket(p, e);
-                        tickets.add(t);
+                        String idUsuario = ds.child("idParticipante").getValue().toString();
+                        if(idUsuario.equals(firebaseAuth.getCurrentUser().getUid())) {
+                            String nombreEvento = ds.child("evento").getValue().toString();
+                            String nombreParticipante = ds.child("participante").getValue().toString();
+                            Evento e = new Evento();
+                            e.setNombre(nombreEvento);
+                            Participante p = new Participante();
+                            p.setNombre(nombreParticipante);
+                            Ticket t = new Ticket(p, e);
+                            tickets.add(t);
+                        }
                     }
 
                     TicketRecyclerAdapter adapter = new TicketRecyclerAdapter(tickets);
