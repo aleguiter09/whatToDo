@@ -40,6 +40,7 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
     NavigationView menuNavigationViewOrganizer;
     Toolbar organizerToolbar;
     ActionBarDrawerToggle actionBarDrawerToggle;
+    //Firebase
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
     //Adapter
@@ -76,7 +77,7 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
         String valor = getIntent().getStringExtra("usuario");
         headerText.setText("Hola, " + valor +"!");
 
-        recycler = (RecyclerView) findViewById(R.id.recyclerEvent);
+        recycler = (RecyclerView) findViewById(R.id.recyclerEventOrganizer);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         getEventsFromFirebase();
@@ -133,15 +134,13 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
                         eventos.add(e);
                     }
 
-                    SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context));
+                    SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context), null);
                     recycler.setAdapter(adapter);
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
 }
