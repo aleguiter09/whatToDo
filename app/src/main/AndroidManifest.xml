@@ -12,7 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatToDo">
-        <activity android:name=".TicketsListActivity"></activity>
+
+        <activity
+            android:name=".TicketsListActivity"
+            android:parentActivityName=".menus.MenuParticipantActivity"/>
         <activity android:name=".MapActivity" />
 
         <meta-data
