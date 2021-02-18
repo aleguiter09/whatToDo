@@ -16,7 +16,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatToDo">
-        <activity android:name=".PerfilOrganizadorActivity"></activity>
+        <activity android:name=".PerfilOrganizadorActivity"
+            android:parentActivityName=".menus.MenuOrganizerActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+        />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

@@ -41,7 +41,6 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
     NavigationView menuNavigationViewOrganizer;
     Toolbar organizerToolbar;
     ActionBarDrawerToggle actionBarDrawerToggle;
-    SerieRecyclerAdapter adapter;
     RecyclerView recycler;
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
@@ -137,7 +136,6 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
                         String latitud = ds.child("latitud").getValue().toString();
                         String longitud = ds.child("longitud").getValue().toString();
                         String idOrganizador = ds.child("idOrganizador").getValue().toString();
-
 
                         Evento e = new Evento(nombreEvento, descripcion, inicioEvento, finEvento, fechaEvento, idOrganizador, ubicacion, latitud, longitud);
                         eventos.add(e);
