@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="rojoBotones">#FF1744</color>
     <color name="blanco">#ffff</color>
+    <color name="color_fondo">#4F5254</color>
+    <color name="golden">#ffd700</color>
 </resources>

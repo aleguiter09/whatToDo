@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.whattodo.CreateEventActivity;
 import com.example.whattodo.LoginActivity;
+import com.example.whattodo.PerfilOrganizadorActivity;
 import com.example.whattodo.R;
 import com.example.whattodo.RegisterActivity;
 import com.example.whattodo.SerieRecyclerAdapter;
@@ -76,6 +77,16 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
 
         String valor = getIntent().getStringExtra("usuario");
         headerText.setText("Hola, " + valor +"!");
+
+        Intent perfilOrganizador = new Intent(this, PerfilOrganizadorActivity.class);
+        String idOrganizador = firebaseAuth.getCurrentUser().getUid();
+        perfilOrganizador.putExtra("idOrganizador", idOrganizador);
+        headerText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(perfilOrganizador);
+            }
+        });
 
         recycler = (RecyclerView) findViewById(R.id.recyclerEventOrganizer);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PerfilOrganizadorActivity"
+    android:background="@color/color_fondo">
+
+    <RelativeLayout
+        android:id="@+id/relative_one"
+        android:layout_width="match_parent"
+        android:layout_height="208dp"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="71dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/portada" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="77dp"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/nombreOrganizadorPerfil"
+            android:layout_width="375dp"
+            android:layout_height="58dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="19dp"
+            android:text="Nombre organizador"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/black"
+            android:textColorHint="@color/white" />
+
+    </RelativeLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/relative_one"
+        app:tabIndicatorColor="@color/cardview_dark_background"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+        app:tabTextColor="@color/blanco"
+        app:tabRippleColor="@color/blanco"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
+
+
+</LinearLayout>

@@ -12,12 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatToDo">
-
-        <activity
-            android:name=".TicketsListActivity"
-            android:parentActivityName=".menus.MenuParticipantActivity"/>
-        <activity android:name=".MapActivity" />
-
+        <activity android:name=".PerfilOrganizadorActivity"
+            android:parentActivityName=".menus.MenuOrganizerActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+        />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -28,6 +26,11 @@
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:parentActivityName=".menus.MenuOrganizerActivity"/>
 
+        <activity
+            android:name=".TicketsListActivity"
+            android:parentActivityName=".menus.MenuParticipantActivity"/>
+
+        <activity android:name=".MapActivity" />
         <activity
             android:name=".CreateEventActivity"
             android:parentActivityName=".menus.MenuOrganizerActivity" />

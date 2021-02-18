@@ -4,8 +4,11 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,11 +33,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdapter.EventoViewHolder> {
 
-    ArrayList<String> listaNombres, listaDescripciones, listaInicioEvento, listaFinEvento, listaFechas, listaUbicaciones;
     ArrayList<Evento> listaEventos;
     Participante participante;
+    ArrayList<String> listaNombres, listaDescripciones, listaInicioEvento, listaFinEvento, listaFechas, listaUbicaciones, listaLatitudes, listaLongitudes, listaIdOrganizadores;
     Dialog myDialog;
 
     DatabaseReference databaseReference;
@@ -50,6 +55,9 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
         listaFinEvento = new ArrayList<String>();
         listaFechas = new ArrayList<String>();
         listaUbicaciones = new ArrayList<String>();
+        listaLatitudes = new ArrayList<String>();
+        listaLongitudes = new ArrayList<String>();
+        listaIdOrganizadores = new ArrayList<String>();
         myDialog = dialog;
         context = myDialog.getContext();
 
@@ -62,6 +70,9 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
             listaFinEvento.add(events.get(i).getHorarioFin());
             listaFechas.add(events.get(i).getFecha());
             listaUbicaciones.add(events.get(i).getUbicacion());
+            listaLatitudes.add(events.get(i).getLatitud());
+            listaLongitudes.add(events.get(i).getLontitud());
+            listaIdOrganizadores.add(events.get(i).getIdOrganizador());
         }
     }
 
@@ -73,7 +84,7 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
 
     @Override
     public void onBindViewHolder (@NonNull EventoViewHolder holder, int position) {
-        holder.asignarDatos(listaEventos.get(position), listaNombres.get(position), listaDescripciones.get(position), listaInicioEvento.get(position), listaFinEvento.get(position), listaFechas.get(position), listaUbicaciones.get(position));
+        holder.asignarDatos(listaEventos.get(position), listaNombres.get(position), listaDescripciones.get(position), listaInicioEvento.get(position), listaFinEvento.get(position), listaFechas.get(position), listaUbicaciones.get(position), listaLatitudes.get(position), listaLongitudes.get(position), listaIdOrganizadores.get(position));
     }
 
     @Override
@@ -94,16 +105,19 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
             btnAsistir = (Button) base.findViewById(R.id.btnAsistir);
         }
 
-        public void asignarDatos(Evento evento, String nombreEvento, String descripcion, String inicioEvento, String finEvento, String fecha, String ubicacion){
+        public void asignarDatos(Evento evento, String nombreEvento, String descripcion, String inicioEvento, String finEvento, String fecha, String ubicacion, String latitud, String longitud, String idOrganizador){
             nombreTV.setText(nombreEvento);
             fecha_horarioTV.setText(fecha + " - " + inicioEvento + "hs a "+ finEvento + "hs");
 
             btnVerDescripcion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ShowPopup(view, descripcion, ubicacion);
+                    ShowPopup(view, descripcion, ubicacion, latitud, longitud, idOrganizador);
                 }
             });
+
+            if(participante == null) btnAsistir.setVisibility(View.GONE);
+            else btnAsistir.setVisibility(View.VISIBLE);
 
             btnAsistir.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -152,17 +166,18 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
             });
         }
 
-        public void ShowPopup(View v, String descripcion, String ubicacion) {
-            TextView txt_cerrar, descripcionPopup, nombreORganizadorPopUp, ubicacionPopUp;
+        public void ShowPopup(View v, String descripcion, String ubicacion, String latitud, String longitud, String idOrganizador) {
+            TextView txt_cerrar, descripcionPopup, ubicacionPopUp, perfilOrganizadorTV;
 
             myDialog.setContentView(R.layout.pop_up_descripcion);
 
             txt_cerrar = (TextView) myDialog.findViewById(R.id.txt_cerrar);
             descripcionPopup = (TextView) myDialog.findViewById(R.id.descripcion_pop_up);
             ubicacionPopUp = (TextView) myDialog.findViewById(R.id.ubicacionPopUP);
+            perfilOrganizadorTV = (TextView) myDialog.findViewById(R.id.perfilOrganizadorTV);
 
             descripcionPopup.setText("Descripción: "+descripcion);
-            ubicacionPopUp.setText("Ubicación: "+ubicacion);
+            ubicacionPopUp.setText(Html.fromHtml("Ubicación: <u>"+ubicacion+"</u>"));
 
             txt_cerrar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -170,10 +185,27 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
                     myDialog.dismiss();
                 }
             });
+
+            final Intent ubicacionMapa = new Intent(context, MapsActivityPopUp.class);
+            ubicacionMapa.putExtra("latitud", latitud);
+            ubicacionMapa.putExtra("longitud", longitud);
+            ubicacionMapa.putExtra("ubicación", ubicacion);
+
             ubicacionPopUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    startActivity(context, ubicacionMapa, Bundle.EMPTY);
+                 }
+            });
 
+            perfilOrganizadorTV.setText(Html.fromHtml("<u>Perfil organizador</u>"));
+            final Intent perfilOrganizador = new Intent(context, PerfilOrganizadorActivity.class);
+            perfilOrganizador.putExtra("idOrganizador", idOrganizador);
+
+            perfilOrganizadorTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(context, perfilOrganizador, Bundle.EMPTY);
                 }
             });
 
