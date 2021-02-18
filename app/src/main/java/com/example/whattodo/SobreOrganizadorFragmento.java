@@ -36,8 +36,13 @@ public class SobreOrganizadorFragmento extends Fragment {
     ArrayList<String> listaNombres = new ArrayList<String>();
     ArrayList<String> listaPuntuaciones = new ArrayList<String>();
     ArrayList<String> listaComentarios = new ArrayList<String>();
+    String idOrganizador;
 
     public SobreOrganizadorFragmento() {
+    }
+
+    public SobreOrganizadorFragmento(String idOrganizador) {
+        this.idOrganizador = idOrganizador;
     }
 
     public static SobreOrganizadorFragmento newInstance(String param1, String param2) {

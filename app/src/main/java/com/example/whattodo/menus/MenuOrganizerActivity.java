@@ -76,6 +76,8 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
         headerText.setText("Hola, " + valor +"!");
 
         Intent perfilOrganizador = new Intent(this, PerfilOrganizadorActivity.class);
+        String idOrganizador = firebaseAuth.getCurrentUser().getUid();
+        perfilOrganizador.putExtra("idOrganizador", idOrganizador);
         headerText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

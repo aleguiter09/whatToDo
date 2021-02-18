@@ -37,8 +37,13 @@ public class EventosOrganizadorFragmento extends Fragment {
     RecyclerView recycler;
     FirebaseAuth firebaseAuth;
     SerieRecyclerAdapter adapter;
+    String idOrganizador;
 
     public EventosOrganizadorFragmento() {
+    }
+
+    public EventosOrganizadorFragmento(String idOrganizador) {
+        this.idOrganizador = idOrganizador;
     }
 
     public static EventosOrganizadorFragmento newInstance(String param1, String param2) {
@@ -73,13 +78,12 @@ public class EventosOrganizadorFragmento extends Fragment {
     }
 
     public void getEventosOrganizador(View vista){
-        String id = firebaseAuth.getCurrentUser().getUid();
         databaseReference.child("Events").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot ds: snapshot.getChildren()){
-                        if(ds.child("idOrganizador").getValue().toString().equals(id)){
+                        if(ds.child("idOrganizador").getValue().toString().equals(idOrganizador)){
                             String nombreEvento = ds.child("nombreEvento").getValue().toString();
                             String descripcion = ds.child("descripcion").getValue().toString();
                             String inicioEvento = ds.child("inicioEvento").getValue().toString();
@@ -95,9 +99,6 @@ public class EventosOrganizadorFragmento extends Fragment {
                         }
                     }
                 }
-
-                System.out.println(id);
-                System.out.println("SIZEEEE " +eventos.size());
 
                 recycler = (RecyclerView) vista.findViewById(R.id.recyclerEventosPerfil);
                 recycler.setLayoutManager(new LinearLayoutManager(getContext()));

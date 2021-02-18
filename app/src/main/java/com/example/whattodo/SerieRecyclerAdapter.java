@@ -33,7 +33,7 @@ import static androidx.core.content.ContextCompat.startActivity;
 
 public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdapter.EventoViewHolder> {
 
-    ArrayList<String> listaNombres, listaDescripciones, listaInicioEvento, listaFinEvento, listaFechas, listaUbicaciones, listaLatitudes, listaLongitudes;
+    ArrayList<String> listaNombres, listaDescripciones, listaInicioEvento, listaFinEvento, listaFechas, listaUbicaciones, listaLatitudes, listaLongitudes, listaIdOrganizadores;
     Dialog myDialog;
     Context context;
     static final int REQUEST_CODE_MAPS = 111;
@@ -47,6 +47,7 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
         listaUbicaciones = new ArrayList<String>();
         listaLatitudes = new ArrayList<String>();
         listaLongitudes = new ArrayList<String>();
+        listaIdOrganizadores = new ArrayList<String>();
         myDialog = dialog;
         this.context = context;
 
@@ -59,6 +60,7 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
             listaUbicaciones.add(events.get(i).getUbicacion());
             listaLatitudes.add(events.get(i).getLatitud());
             listaLongitudes.add(events.get(i).getLontitud());
+            listaIdOrganizadores.add(events.get(i).getIdOrganizador());
         }
     }
 
@@ -70,7 +72,7 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
 
     @Override
     public void onBindViewHolder (@NonNull EventoViewHolder holder, int position) {
-        holder.asignarDatos(listaNombres.get(position), listaDescripciones.get(position), listaInicioEvento.get(position), listaFinEvento.get(position), listaFechas.get(position), listaUbicaciones.get(position), listaLatitudes.get(position), listaLongitudes.get(position));
+        holder.asignarDatos(listaNombres.get(position), listaDescripciones.get(position), listaInicioEvento.get(position), listaFinEvento.get(position), listaFechas.get(position), listaUbicaciones.get(position), listaLatitudes.get(position), listaLongitudes.get(position), listaIdOrganizadores.get(position));
     }
 
     @Override
@@ -89,26 +91,27 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
             btnVerDescripcion = (Button) base.findViewById(R.id.verMas);
         }
 
-        public void asignarDatos(String nombreEvento, String descripcion, String inicioEvento, String finEvento, String fecha, String ubicacion, String latitud, String longitud){
+        public void asignarDatos(String nombreEvento, String descripcion, String inicioEvento, String finEvento, String fecha, String ubicacion, String latitud, String longitud, String idOrganizador){
             nombreTV.setText(nombreEvento);
             fecha_horarioTV.setText(fecha + " - " + inicioEvento + "hs a "+finEvento+"hs");
 
             btnVerDescripcion.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ShowPopup(view, descripcion, ubicacion, latitud, longitud);
+                    ShowPopup(view, descripcion, ubicacion, latitud, longitud, idOrganizador);
                 }
             });
         }
 
-        public void ShowPopup(View v, String descripcion, String ubicacion, String latitud, String longitud) {
-            TextView txt_cerrar, descripcionPopup, nombreORganizadorPopUp, ubicacionPopUp;
+        public void ShowPopup(View v, String descripcion, String ubicacion, String latitud, String longitud, String idOrganizador) {
+            TextView txt_cerrar, descripcionPopup, ubicacionPopUp, perfilOrganizadorTV;
 
             myDialog.setContentView(R.layout.pop_up_descripcion);
 
             txt_cerrar = (TextView) myDialog.findViewById(R.id.txt_cerrar);
             descripcionPopup = (TextView) myDialog.findViewById(R.id.descripcion_pop_up);
             ubicacionPopUp = (TextView) myDialog.findViewById(R.id.ubicacionPopUP);
+            perfilOrganizadorTV = (TextView) myDialog.findViewById(R.id.perfilOrganizadorTV);
 
             descripcionPopup.setText("Descripción: "+descripcion);
             ubicacionPopUp.setText(Html.fromHtml("Ubicación: <u>"+ubicacion+"</u>"));
@@ -130,6 +133,17 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
                 public void onClick(View view) {
                     startActivity(context, ubicacionMapa, Bundle.EMPTY);
                  }
+            });
+
+            perfilOrganizadorTV.setText(Html.fromHtml("<u>Perfil organizador</u>"));
+            final Intent perfilOrganizador = new Intent(context, PerfilOrganizadorActivity.class);
+            perfilOrganizador.putExtra("idOrganizador", idOrganizador);
+
+            perfilOrganizadorTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(context, perfilOrganizador, Bundle.EMPTY);
+                }
             });
 
             myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
