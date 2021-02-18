@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
     boolean esAsistente;
-    String nombreUsuario;
+    String nombreUsuario, idUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +106,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i("Inicio sesion", "ES ASISTENTE");
                 Intent iniciarHomeAsistente = new Intent(this, MenuParticipantActivity.class);
                 iniciarHomeAsistente.putExtra("usuario", nombreUsuario);
+                iniciarHomeAsistente.putExtra("idUsuario", idUsuario);
                 startActivity(iniciarHomeAsistente);
             }
             else {
@@ -126,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(snapshot.exists()) {
                     esAsistente = (boolean) snapshot.child("esAsistente").getValue();
                     nombreUsuario = (String) snapshot.child("name").getValue();
+                    idUsuario = id;
                 }
             }
 
