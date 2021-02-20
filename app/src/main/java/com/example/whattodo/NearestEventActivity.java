@@ -40,9 +40,11 @@ import java.util.ArrayList;
 public class NearestEventActivity extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap myMap;
     Spinner spinner;
-    LatLng myLocation;
+    private LatLng myLocation;
     DatabaseReference databaseReference;
     ArrayList<Evento> eventos = new ArrayList<Evento>();
+    private ArrayList<Marker> temporalRealTime = new ArrayList<>();
+    private ArrayList<Marker> realTime = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +56,7 @@ public class NearestEventActivity extends AppCompatActivity implements OnMapRead
         mapFragment.getMapAsync(this);
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        getEventsFromFirebase();
-        System.out.println("TAMAÑO :     " + eventos.size());
+
     }
 
     @Override
@@ -84,7 +85,7 @@ public class NearestEventActivity extends AppCompatActivity implements OnMapRead
 
         //Agregamos marcadores de todos los eventos obtenidos de la bdd
 
-        ArrayList<MarkerOptions> listaMarcadores = new ArrayList<MarkerOptions>();
+        /*ArrayList<MarkerOptions> listaMarcadores = new ArrayList<MarkerOptions>();
         for(int n=0; n<eventos.size(); n++) {
             System.out.println("NOMBRE :  " +eventos.get(n).getNombre());
             MarkerOptions m1 = new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
@@ -101,8 +102,39 @@ public class NearestEventActivity extends AppCompatActivity implements OnMapRead
             listaMarcadores.get(i).position(event);
             myMap.addMarker(listaMarcadores.get(i));
 
-        }
+        }*/
 
+        databaseReference.child("Events").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                    //Evento ev = snapshot1.getValue(Evento.class);
+
+                    String nombreEvento = snapshot1.child("nombreEvento").getValue().toString();
+                    String fechaEvento = snapshot.child("fechaEvento").getValue().toString();
+                    String latitud = snapshot1.child("latitud").getValue().toString();
+                    String longitud = snapshot1.child("longitud").getValue().toString();
+
+                    double lat = Double.parseDouble(latitud);
+                    double lon = Double.parseDouble(longitud);
+
+                    MarkerOptions markerOptions = new MarkerOptions()
+                            .position(new LatLng(lat,lon))
+                            .title(nombreEvento)
+                            .snippet(fechaEvento)
+                            .icon(BitmapDescriptorFactory .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+
+                    temporalRealTime.add(myMap.addMarker(markerOptions));
+                }
+                realTime.clear();
+                realTime.addAll(temporalRealTime);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         configurarMapa();
     }

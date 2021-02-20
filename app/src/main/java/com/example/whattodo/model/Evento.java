@@ -11,6 +11,10 @@ public class Evento {
     private Organizador organizador;
     private ArrayList<Participante> participantes;
 
+    public Evento() {
+
+    }
+
     public Evento(String nombre, String descripcion, String horarioInicio, String horarioFin, String fecha, String idOrganizador, String ubicacion, String latitud, String longitud, Organizador organizador, ArrayList<Participante> participantes) {
         this.nombre = nombre;
         this.descripcion = descripcion;
