@@ -43,9 +43,6 @@ public class Evento {
         this.longitud = longitud;
     }
 
-    public Evento() {
-
-    }
 
     public String getIdEvento() {
         return idEvento;

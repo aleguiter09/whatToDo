@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.example.whattodo.model.Database;
 import com.example.whattodo.model.Evento;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,10 +43,11 @@ public class NearestEventActivity extends AppCompatActivity implements OnMapRead
     private GoogleMap myMap;
     Spinner spinner;
     private LatLng myLocation;
-    DatabaseReference databaseReference;
+    Database databaseClass;
     ArrayList<Evento> eventos = new ArrayList<Evento>();
     private ArrayList<Marker> temporalRealTime = new ArrayList<>();
     private ArrayList<Marker> realTime = new ArrayList<>();
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +58,8 @@ public class NearestEventActivity extends AppCompatActivity implements OnMapRead
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseClass = new Database();
+        context = this;
 
     }
 
@@ -104,7 +108,56 @@ public class NearestEventActivity extends AppCompatActivity implements OnMapRead
 
         }*/
 
-        databaseReference.child("Events").addValueEventListener(new ValueEventListener() {
+        databaseClass.mReadDataOnce("Events", new OnGetDataListener() {
+            ProgressDialog mProgressDialog = null;
+            @Override
+            public void onStart() {
+                if (mProgressDialog == null) {
+                    mProgressDialog = new ProgressDialog(context);
+                    mProgressDialog.setMessage("Cargando..");
+                    mProgressDialog.setIndeterminate(true);
+                }
+                mProgressDialog.show();
+            }
+
+
+            @Override
+            public void onSuccess(DataSnapshot snapshot) {
+                for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                    //Evento ev = snapshot1.getValue(Evento.class);
+
+                    String nombreEvento = snapshot1.child("nombreEvento").getValue().toString();
+                    String fechaEvento = snapshot1.child("fechaEvento").getValue().toString();
+                    String latitud = snapshot1.child("latitud").getValue().toString();
+                    String longitud = snapshot1.child("longitud").getValue().toString();
+
+                    double lat = Double.parseDouble(latitud);
+                    double lon = Double.parseDouble(longitud);
+
+                    MarkerOptions markerOptions = new MarkerOptions()
+                            .position(new LatLng(lat,lon))
+                            .title(nombreEvento)
+                            .snippet(fechaEvento)
+                            .icon(BitmapDescriptorFactory .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+
+                    temporalRealTime.add(myMap.addMarker(markerOptions));
+                }
+                realTime.clear();
+                realTime.addAll(temporalRealTime);
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+
+
+            }
+
+            @Override
+            public void onFailed(DatabaseError databaseError) {
+
+            }
+        });
+
+             /*   .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
@@ -134,7 +187,7 @@ public class NearestEventActivity extends AppCompatActivity implements OnMapRead
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        });*/
 
         configurarMapa();
     }
@@ -208,38 +261,6 @@ public class NearestEventActivity extends AppCompatActivity implements OnMapRead
 
 
 
-    }
-
-    public void getEventsFromFirebase(){
-        databaseReference.child("Events").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-
-                if(snapshot.exists()){
-                    for(DataSnapshot ds: snapshot.getChildren()){
-                        String nombreEvento = ds.child("nombreEvento").getValue().toString();
-                        String descripcion = ds.child("descripcion").getValue().toString();
-                        String inicioEvento = ds.child("inicioEvento").getValue().toString();
-                        String finEvento = ds.child("finEvento").getValue().toString();
-                        String fechaEvento = ds.child("fechaEvento").getValue().toString();
-                        String ubicacion = ds.child("ubicacion").getValue().toString();
-                        String latitud = ds.child("latitud").getValue().toString();
-                        String longitud = ds.child("longitud").getValue().toString();
-                        String idOrganizador = ds.child("idOrganizador").getValue().toString();
-
-
-                        Evento e = new Evento(nombreEvento, descripcion, inicioEvento, finEvento, fechaEvento, idOrganizador, ubicacion, latitud, longitud);
-                        eventos.add(e);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 }
 
