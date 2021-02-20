@@ -7,6 +7,7 @@ public class Evento {
 
     private String nombre, descripcion, horarioInicio, horarioFin, fecha;
     private String idOrganizador;
+    private String idEvento;
     private String ubicacion, latitud, longitud;
     private Organizador organizador;
     private ArrayList<Participante> participantes;
@@ -39,6 +40,26 @@ public class Evento {
         this.idOrganizador = idOrganizador;
         this.ubicacion = ubicacion;
         this.latitud = latitud;
+        this.longitud = longitud;
+    }
+
+    public Evento() {
+
+    }
+
+    public String getIdEvento() {
+        return idEvento;
+    }
+
+    public void setIdEvento(String idEvento) {
+        this.idEvento = idEvento;
+    }
+
+    public String getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(String longitud) {
         this.longitud = longitud;
     }
 

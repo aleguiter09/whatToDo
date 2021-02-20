@@ -60,6 +60,15 @@
     <string name="google_maps_key">AIzaSyAWcPl_1zEndLvKG4pb2uzFeUZ3lN1kLQc</string>
     <string name="direcci_n">Dirección:</string>
     <string name="confirmar_ubicaci_n">Confirmar ubicación</string>
+    <string name="title_activity_maps_pop_up">Map</string>
+    <string name="title_activity_maps_p_r_u_e_b">Map</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Ticket CardView -->
+    <string name="imageEvent">Imagen del evento</string>
+    <string name="nameEventHolder">Nombre del evento</string>
+    <string name="verEventoBtn">Ver evento</string>
 
 
 </resources>

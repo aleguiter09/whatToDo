@@ -126,9 +126,7 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     public void guardarEvento(){
-
         String id = firebaseAuth.getCurrentUser().getUid();
-
 
         Map<String, Object> map = new HashMap<>();
         map.put("idOrganizador", id);
@@ -152,7 +150,7 @@ public class CreateEventActivity extends AppCompatActivity {
                     descripcion.setText(null);
                     ubicacionTV.setText(null);
                     Toast.makeText(context, "El evento ha sido registrado con éxito!", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     Toast.makeText(context, "No se pudieron crear los datos correctamente", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -185,16 +183,13 @@ public class CreateEventActivity extends AppCompatActivity {
 
         if(request_code == REQUEST_CODE_MAPS) {
             if (result_code == RESULT_OK) {
-
                 ubicacionTV.setText(data.getStringExtra("dirección"));
                 latitudGuardar = data.getStringExtra("latitud");
                 longitudGuardar = data.getStringExtra("longitud");
-
             }else if(result_code == RESULT_CANCELED){
                 System.out.println("NO FUNCIONÓ EL MAPA");
             }
         }
-
     }
 
 

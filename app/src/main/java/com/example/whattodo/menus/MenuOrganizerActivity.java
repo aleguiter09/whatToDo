@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.whattodo.CreateEventActivity;
 import com.example.whattodo.LoginActivity;
+import com.example.whattodo.PerfilOrganizadorActivity;
 import com.example.whattodo.R;
 import com.example.whattodo.RegisterActivity;
 import com.example.whattodo.SerieRecyclerAdapter;
@@ -40,12 +41,14 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
     NavigationView menuNavigationViewOrganizer;
     Toolbar organizerToolbar;
     ActionBarDrawerToggle actionBarDrawerToggle;
-    SerieRecyclerAdapter adapter;
-    RecyclerView recycler;
+    //Firebase
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
+    //Adapter
+    RecyclerView recycler;
     ArrayList<Evento> eventos = new ArrayList<Evento>();
     Context context;
+    //Header
     View header;
     TextView headerText;
 
@@ -75,11 +78,20 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
         String valor = getIntent().getStringExtra("usuario");
         headerText.setText("Hola, " + valor +"!");
 
-        recycler = (RecyclerView) findViewById(R.id.recycler);
+        Intent perfilOrganizador = new Intent(this, PerfilOrganizadorActivity.class);
+        String idOrganizador = firebaseAuth.getCurrentUser().getUid();
+        perfilOrganizador.putExtra("idOrganizador", idOrganizador);
+        headerText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(perfilOrganizador);
+            }
+        });
+
+        recycler = (RecyclerView) findViewById(R.id.recyclerEventOrganizer);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         getEventsFromFirebase();
-
     }
 
     @Override
@@ -117,8 +129,6 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
         databaseReference.child("Events").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-
                 if(snapshot.exists()){
                     for(DataSnapshot ds: snapshot.getChildren()){
                         String nombreEvento = ds.child("nombreEvento").getValue().toString();
@@ -131,21 +141,17 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
                         String longitud = ds.child("longitud").getValue().toString();
                         String idOrganizador = ds.child("idOrganizador").getValue().toString();
 
-
                         Evento e = new Evento(nombreEvento, descripcion, inicioEvento, finEvento, fechaEvento, idOrganizador, ubicacion, latitud, longitud);
                         eventos.add(e);
                     }
 
-                    SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context));
+                    SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context), null);
                     recycler.setAdapter(adapter);
-
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
 }

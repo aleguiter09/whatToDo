@@ -15,10 +15,25 @@
         <activity android:name=".NearestEventActivity"></activity>
         <activity android:name=".MapActivity" />
 
+        <activity android:name=".PerfilOrganizadorActivity"
+            android:parentActivityName=".menus.MenuOrganizerActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+        />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".MapsActivityPopUp"
+            android:label="@string/title_activity_maps_pop_up"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:parentActivityName=".menus.MenuOrganizerActivity"/>
+
+        <activity
+            android:name=".TicketsListActivity"
+            android:parentActivityName=".menus.MenuParticipantActivity"/>
+
+        <activity android:name=".MapActivity" />
         <activity
             android:name=".CreateEventActivity"
             android:parentActivityName=".menus.MenuOrganizerActivity" />
