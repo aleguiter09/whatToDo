@@ -2,6 +2,7 @@ package com.example.whattodo;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,13 +22,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.whattodo.model.Database;
 import com.example.whattodo.model.Evento;
 import com.example.whattodo.model.Participante;
 import com.example.whattodo.model.Ticket;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +47,10 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
     ArrayList<String> listaNombres, listaDescripciones, listaInicioEvento, listaFinEvento, listaFechas, listaUbicaciones, listaLatitudes, listaLongitudes, listaIdOrganizadores;
     Dialog myDialog;
 
-    DatabaseReference databaseReference;
+    //DatabaseReference databaseReference;
+    Database databaseClass;
+
+    boolean existeTicket;
 
     Context context;
 
@@ -61,7 +69,10 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
         myDialog = dialog;
         context = myDialog.getContext();
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        //databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseClass = new Database();
+
+        existeTicket = false;
 
         for(int i=0; i<events.size(); i++){
             listaNombres.add(events.get(i).getNombre());
@@ -122,13 +133,19 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
             btnAsistir.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    existeTicket(evento);
                     AlertDialog.Builder alert = new AlertDialog.Builder(context);
                     alert.setMessage("¿Desea solicitar un ticket para este evento?")
                             .setCancelable(true)
                             .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    guardarTicket(evento);
+                                    if(!existeTicket) {
+                                        guardarTicket(evento);
+                                    }
+                                    else {
+                                        Toast.makeText(context, "Ya tienes un ticket para este evento", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -144,6 +161,67 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
             });
         }
 
+        public void existeTicket(Evento evento) {
+            databaseClass.mReadDataOnce("Tickets", new OnGetDataListener() {
+                ProgressDialog mProgressDialog = null;
+                @Override
+                public void onStart() {
+                    if (mProgressDialog == null) {
+                        mProgressDialog = new ProgressDialog(context);
+                        mProgressDialog.setMessage("Cargando..");
+                        mProgressDialog.setIndeterminate(true);
+                    }
+                    mProgressDialog.show();
+                }
+
+                @Override
+                public void onSuccess(DataSnapshot snapshot) {
+                    for(DataSnapshot ds: snapshot.getChildren()) {
+                        if(ds.child("idEvento").getValue().toString().equals(evento.getIdEvento()) && ds.child("idParticipante").getValue().toString().equals(participante.getId())) {
+                                Log.i("Id de evento", evento.getIdEvento());
+                                Log.i("Id de evento defirebase", ds.child("idEvento").getValue().toString());
+                                Log.i("Id de usuario", participante.getId());
+                                Log.i("Id de usuariodefirebase", ds.child("idParticipante").getValue().toString());
+                                existeTicket = true;
+                                break;
+                        }
+                        else {
+                            existeTicket = false;
+                        }
+                    }
+
+                    if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onFailed(DatabaseError databaseError) {}
+            });
+
+
+            if(existeTicket)
+                Log.i("Valor de existe", "true");
+            else
+                Log.i("Valor de existe", "false");
+
+            /*databaseReference.child("Tickets").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot ds: snapshot.getChildren()) {
+                        if(ds.child("idEvento").getValue().toString().equals(evento.getIdEvento())) {
+                            if(ds.child("idParticipante").getValue().toString().equals(participante.getId())) {
+                                existe[0] = true;
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {}
+            });*/
+        }
+
         public void guardarTicket(Evento evento) {
             Ticket t = new Ticket(participante, evento);
 
@@ -153,7 +231,8 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
             map.put("idEvento", t.getEvento().getIdEvento());
             map.put("evento", t.getEvento().getNombre());
 
-            databaseReference.child("Tickets").push().setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+            databaseClass.getDatabaseReference().child("Tickets").push().setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()) {
