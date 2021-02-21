@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 
 import android.content.Intent;
@@ -22,9 +23,11 @@ import android.widget.TextView;
 import com.example.whattodo.CreateEventActivity;
 import com.example.whattodo.LoginActivity;
 import com.example.whattodo.NearestEventActivity;
+import com.example.whattodo.OnGetDataListener;
 import com.example.whattodo.R;
 import com.example.whattodo.RegisterActivity;
 import com.example.whattodo.SerieRecyclerAdapter;
+import com.example.whattodo.model.Database;
 import com.example.whattodo.model.Evento;
 import com.example.whattodo.SerieRecyclerAdapter;
 import com.example.whattodo.TicketsListActivity;
@@ -48,7 +51,7 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
     ActionBarDrawerToggle actionBarDrawerToggle;
     //Firebase
     FirebaseAuth firebaseAuth;
-    DatabaseReference databaseReference;
+    Database databaseClass;
     //Adapter
     RecyclerView recycler;
     ArrayList<Evento> eventos = new ArrayList<Evento>();
@@ -57,9 +60,7 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
     View header;
     TextView headerText;
 
-
-
-    //Strgin nombre
+    //String nombre
     String nombreUsuario, idUsuario;
 
     @Override
@@ -68,7 +69,7 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
         setContentView(R.layout.activity_menu_participant);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseClass = new Database();
 
         context = this;
 
@@ -131,9 +132,20 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
     }
 
     public void getEventsFromFirebase(){
-        databaseReference.child("Events").addValueEventListener(new ValueEventListener() {
+        databaseClass.mReadDataOnce("Events", new OnGetDataListener() {
+            ProgressDialog mProgressDialog = null;
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onStart() {
+                if (mProgressDialog == null) {
+                    mProgressDialog = new ProgressDialog(context);
+                    mProgressDialog.setMessage("Cargando..");
+                    mProgressDialog.setIndeterminate(true);
+                }
+                mProgressDialog.show();
+            }
+
+            @Override
+            public void onSuccess(DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot ds: snapshot.getChildren()){
                         String nombreEvento = ds.child("nombreEvento").getValue().toString();
@@ -159,27 +171,44 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
                     SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context), p);
                     recycler.setAdapter(adapter);
                 }
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onFailed(DatabaseError databaseError) {}
         });
     }
 
     public void getUserInfo() {
         String id = firebaseAuth.getCurrentUser().getUid();
         idUsuario = id;
-        databaseReference.child("Users").child(id).addValueEventListener(new ValueEventListener() {
+        databaseClass.mReadDataOnce("Users", new OnGetDataListener() {
+            ProgressDialog mProgressDialog = null;
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
-                    nombreUsuario = (String) snapshot.child("name").getValue();
+            public void onStart() {
+                if (mProgressDialog == null) {
+                    mProgressDialog = new ProgressDialog(context);
+                    mProgressDialog.setMessage("Cargando..");
+                    mProgressDialog.setIndeterminate(true);
+                }
+                mProgressDialog.show();
+            }
+
+            @Override
+            public void onSuccess(DataSnapshot snapshot) {
+                if(snapshot.child(id).exists()) {
+                    nombreUsuario = (String) snapshot.child(id).child("name").getValue();
                     headerText.setText("Hola, " + nombreUsuario +"!");
+                }
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onFailed(DatabaseError databaseError) {}
         });
 
     }

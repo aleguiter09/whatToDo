@@ -37,7 +37,6 @@ public class LoginActivity extends AppCompatActivity {
     String usuario_str, password_str;
     Context context;
     FirebaseAuth firebaseAuth;
-    //DatabaseReference databaseReference;
     Database databaseClass;
     boolean esAsistente;
     String nombreUsuario, idUsuario;
@@ -50,32 +49,12 @@ public class LoginActivity extends AppCompatActivity {
          context = this;
          firebaseAuth = FirebaseAuth.getInstance();
          final FirebaseDatabase database = FirebaseDatabase.getInstance();
-         //databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseClass = new Database();
+         databaseClass = new Database();
 
 
          btnIniciarSesion = (Button) findViewById(R.id.btnIniciarSesion);
-         //btnIniciarSesion.setEnabled(false);
-         //btnIniciarSesion.setFocusable(true);
          usuario = (EditText) findViewById(R.id.editTextName);
          password = (EditText) findViewById(R.id.editTextPassword);
-
-         /*password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-             @Override
-             public void onFocusChange(View v, boolean hasFocus) {
-                 if(!hasFocus) {
-                     usuario_str = usuario.getText().toString();
-                     password_str = password.getText().toString();
-
-                     if(!usuario_str.isEmpty() && !password_str.isEmpty()) {
-                         loginUser();
-                         btnIniciarSesion.setEnabled(true);
-                     }
-                     else
-                         Toast.makeText(context, "Debe completar los campos para iniciar sesión", Toast.LENGTH_SHORT).show();
-                 }
-             }
-         });*/
 
          btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -163,21 +142,5 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailed(DatabaseError databaseError) {}
         });
-
-
-        /*databaseReference.child("Users").child(id).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.i("SNAPSHOT", snapshot.child("esAsistente").getValue().toString());
-                if(snapshot.exists()) {
-                    esAsistente = (boolean) snapshot.child("esAsistente").getValue();
-                    nombreUsuario = (String) snapshot.child("name").getValue();
-                    idUsuario = id;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });*/
     }
 }
