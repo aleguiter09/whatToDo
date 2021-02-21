@@ -1,3 +1,78 @@
 <resources>
     <string name="app_name">whatToDo</string>
+
+    <!-- LoginActivity (MainActivity) -->
+    <string name="logo_description">Logo de la applicacion What To Do</string>
+    <string name="placeholder_usuario">Usuario</string>
+    <string name="placeholder_password">Contraseña</string>
+    <string name="btnIniciarSesion">Iniciar Sesión</string>
+    <string name="textViewNoTienesUsuario">¿No tienes usuario?</string>
+    <string name="textViewRegistrate">Registrate</string>
+
+    <!-- RegisterActivity -->
+    <string name="placeholder_email">E-mail</string>
+    <string name="radioButtonAsistente">Soy un asistente</string>
+    <string name="radioButtonOrganizador">Soy un organizador</string>
+    <string name="btnRegistrarse">Registrarse</string>
+    <string name="textViewYaTienesUsuario">¿Ya tienes usuario?</string>
+    <string name="textViewInicioSesion">Inicia sesión</string>
+
+    <!-- CreateEventActivity-->
+    <string name="nombreDelEvento">Nombre del evento</string>
+    <string name="ubicacionButton">Ubicación</string>
+    <string name="fecha">Fecha:</string>
+    <string name="fechaFormat">DD/MM/AAAA</string>
+    <string name="horario">Horario:</string>
+    <string name="inicio">Inicio</string>
+    <string name="fin">Fin</string>
+    <string name="descripcion">Descripción:</string>
+    <string name="descripcionHint">Describe tu evento</string>
+    <string name="crearEventoButton">Crear evento</string>
+
+    <!-- Menu home -->
+    <string name="loginOption">Iniciar sesión</string>
+    <string name="createAccountOption">Crear cuenta</string>
+    <string name="finish">Cerrar aplicación</string>
+
+    <!-- Menu activity Participant -->
+    <string name="searchOption">Buscar eventos</string>
+    <string name="ticketsOption">Entradas</string>
+    <string name="eventosCercanosOption">Eventos cercanos</string>
+    <string name="passEventosOption">Eventos pasados</string>
+    <string name="configurationOption">Configuración</string>
+    <string name="logoutOption">Cerrar sesión</string>
+
+    <!-- Menu activity Organizer -->
+    <string name="crearEvento">Crear evento</string>
+    <string name="eventosActuales">Eventos actuales</string>
+    <string name="eventosPasados">Eventos pasados</string>
+    <string name="ver_m_s">VER MÁS</string>
+    <string name="asistir">ASISTIR</string>
+    <string name="evento">EVENTO</string>
+    <string name="sab_nov_28_22_00_hs">SAB, NOV 28 - 22:00 Hs</string>
+    <string name="todo">TODO</string>
+
+    <!-- Firebase -->
+    <string name="channel_name">Canal What To Do</string>
+    <string name="channel_description">RECORDATORIO EVENTO</string>
+
+    <!--Maps -->
+    <string name="google_maps_key">AIzaSyAWcPl_1zEndLvKG4pb2uzFeUZ3lN1kLQc</string>
+    <string name="direcci_n">Dirección:</string>
+    <string name="confirmar_ubicaci_n">Confirmar ubicación</string>
+    <string name="title_activity_maps_pop_up">Map</string>
+    <string name="title_activity_maps_p_r_u_e_b">Map</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Ticket CardView -->
+    <string name="imageEvent">Imagen del evento</string>
+    <string name="nameEventHolder">Nombre del evento</string>
+    <string name="verEventoBtn">Ver evento</string>
+    <string name="filtrar">FILTRAR ▼</string>
+    <string name="x">X</string>
+    <string name="por_organizador">Por organizador:</string>
+    <string name="por_fecha">Por fecha:</string>
+
+
 </resources>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.MenuParticipantActivity">
+
+    <item
+        android:id="@+id/buscarEventos"
+        android:icon="@drawable/ic_buscar"
+        android:title="@string/searchOption" />
+
+    <item
+        android:id="@+id/entradas"
+        android:icon="@drawable/ic_tickets"
+        android:title="@string/ticketsOption" />
+
+    <item
+        android:id="@+id/eventosPasados"
+        android:icon="@drawable/ic_events_passed"
+        android:title="@string/passEventosOption" />
+
+    <item
+        android:id="@+id/eventosCercanos"
+        android:icon="@drawable/ic_event_near"
+        android:title="@string/eventosCercanosOption" />
+
+    <item android:title=" " />
+    <item android:title=" " />
+
+    <item
+        android:id="@+id/configuracion"
+        android:icon="@drawable/ic_configuration"
+        android:title="@string/configurationOption" />
+
+    <item
+        android:id="@+id/cerrarSesion"
+        android:icon="@drawable/ic_logout"
+        android:title="@string/logoutOption" />
+
+</menu>

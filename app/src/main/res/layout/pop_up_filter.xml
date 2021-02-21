@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="250dp"
+    android:layout_gravity="center"
+    android:background="@color/cardview_dark_background"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/txt_cerrar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:background="@drawable/circulobackground"
+        android:gravity="center"
+        android:text="@string/x"
+        android:textColor="@color/blanco"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/por_fecha"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/blanco"
+            tools:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            tools:textSize="24sp" />
+
+        <Spinner
+            android:id="@+id/spinner_fecha"
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_height="wrap_content"
+            tools:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/por_organizador"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            tools:textColor="@color/white"
+            tools:textSize="24sp" />
+
+        <Spinner
+            android:id="@+id/spinner_org"
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_height="wrap_content"
+            tools:textSize="18sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

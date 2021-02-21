@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.MenuOrganizerActivity">
+
+    <item
+        android:id="@+id/crearEvento"
+        android:icon="@drawable/ic_add"
+        android:title="@string/crearEvento"/>
+
+    <item
+        android:id="@+id/eventosActuales"
+        android:icon="@drawable/ic_avaible"
+        android:title="@string/eventosActuales" />
+
+    <item
+        android:id="@+id/eventosPasadosOrganizer"
+        android:icon="@drawable/ic_passed"
+        android:title="@string/eventosPasados" />
+
+    <item android:title=" " />
+    <item android:title=" " />
+    <item android:title=" " />
+
+    <item
+        android:id="@+id/configuracionOrganizer"
+        android:icon="@drawable/ic_configuration"
+        android:title="@string/configurationOption" />
+
+    <item
+        android:id="@+id/cerrarSesion"
+        android:icon="@drawable/ic_logout"
+        android:title="@string/logoutOption" />
+
+</menu>

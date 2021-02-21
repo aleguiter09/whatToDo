@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.MenuActivity">
+
+    <item
+        android:id="@+id/loginOption"
+        android:icon="@drawable/ic_login"
+        android:title="@string/loginOption" />
+
+    <item
+        android:id="@+id/createAccountOption"
+        android:icon="@drawable/ic_register"
+        android:title="@string/createAccountOption" />
+
+    <item android:title=" " />
+    <item android:title=" " />
+    <item android:title=" " />
+    <item android:title=" " />
+    <item android:title=" " />
+
+    <item
+        android:id="@+id/finish"
+        android:icon="@drawable/ic_close"
+        android:title="@string/finish" />
+
+</menu>
