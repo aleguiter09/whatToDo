@@ -69,6 +69,10 @@
     <string name="imageEvent">Imagen del evento</string>
     <string name="nameEventHolder">Nombre del evento</string>
     <string name="verEventoBtn">Ver evento</string>
+    <string name="filtrar">FILTRAR ▼</string>
+    <string name="x">X</string>
+    <string name="por_organizador">Por organizador:</string>
+    <string name="por_fecha">Por fecha:</string>
 
 
 </resources>

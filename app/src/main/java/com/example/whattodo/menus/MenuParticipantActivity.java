@@ -9,27 +9,42 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.whattodo.CreateEventActivity;
 import com.example.whattodo.LoginActivity;
 import com.example.whattodo.NearestEventActivity;
+import com.example.whattodo.OnGetDataListener;
 import com.example.whattodo.R;
 import com.example.whattodo.RegisterActivity;
 import com.example.whattodo.SerieRecyclerAdapter;
+import com.example.whattodo.model.Database;
 import com.example.whattodo.model.Evento;
 import com.example.whattodo.SerieRecyclerAdapter;
 import com.example.whattodo.TicketsListActivity;
 import com.example.whattodo.model.Evento;
 import com.example.whattodo.model.Participante;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -49,6 +64,7 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
     //Firebase
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseReference;
+    Database databaseClass;
     //Adapter
     RecyclerView recycler;
     ArrayList<Evento> eventos = new ArrayList<Evento>();
@@ -56,9 +72,10 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
     //Header
     View header;
     TextView headerText;
-
-
-
+    //PopUp - filtros
+    TextView filtros;
+    Dialog myDialog1;
+    ArrayList<String> datosOrg, mailsOrg, orgKeys;
     //Strgin nombre
     String nombreUsuario, idUsuario;
 
@@ -66,9 +83,10 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_participant);
-
+        myDialog1 = new Dialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseClass = new Database();
 
         context = this;
 
@@ -93,6 +111,15 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
         getEventsFromFirebase();
         String valor = getIntent().getStringExtra("usuario");
         headerText.setText("Hola, " + valor + "!");
+
+        filtros = (TextView) findViewById(R.id.filter_text);
+
+        filtros.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               ShowPopup(view);
+            }
+        });
 
     }
 
@@ -180,6 +207,151 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
+    }
+
+    public void ShowPopup(View v) {
+        TextView txt_cerrar;
+        Spinner fechas, organizadores;
+
+        myDialog1.setContentView(R.layout.pop_up_filter);
+        txt_cerrar =(TextView) myDialog1.findViewById(R.id.txt_cerrar);
+        fechas = (Spinner) myDialog1.findViewById(R.id.spinner_fecha);
+        organizadores = (Spinner) myDialog1.findViewById(R.id.spinner_org);
+
+        String[] datosF = new String[] {"Ascendente", "Descendente"};
+        ArrayAdapter<String> adaptadorF = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, datosF);
+        adaptadorF.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        fechas.setAdapter(adaptadorF);
+
+        //Obtenemos los organizadores de la bdd
+
+        databaseClass.mReadDataOnce("Users", new OnGetDataListener() {
+            ProgressDialog mProgressDialog = null;
+            @Override
+            public void onStart() {
+                if (mProgressDialog == null) {
+                    mProgressDialog = new ProgressDialog(context);
+                    mProgressDialog.setMessage("Cargando..");
+                    mProgressDialog.setIndeterminate(true);
+                }
+                mProgressDialog.show();
+            }
+
+
+            @Override
+            public void onSuccess(DataSnapshot snapshot) {
+                datosOrg = new ArrayList<>();
+                mailsOrg= new ArrayList<>();
+                orgKeys= new ArrayList<>();
+                for (DataSnapshot snapshot1 : snapshot.getChildren()){
+
+                    String esAsistente = snapshot1.child("esAsistente").getValue().toString();
+                    if (esAsistente.equals("false")) {
+                        String nombreOrg = snapshot1.child("name").getValue().toString();
+                        String email = snapshot1.child("email").getValue().toString();
+                        String key = snapshot1.getKey();
+                        datosOrg.add(nombreOrg);
+                        mailsOrg.add(email);
+                        orgKeys.add(key);
+
+                    }
+                }
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
+
+                //extraemos de las listas los organizadores que no tengan eventos
+                ArrayList<String> idsOrgEventos = new ArrayList<>();
+                for(int m=0;m<eventos.size();m++){
+                    idsOrgEventos.add(eventos.get(m).getIdOrganizador());
+                }
+
+                for (int n=0;n<orgKeys.size();n++){
+                    if(!idsOrgEventos.contains(orgKeys.get(n))){ //ver,  puede haber error de logica
+                        datosOrg.remove(n);
+                        mailsOrg.remove(n);
+                        orgKeys.remove(n);
+                    }
+                }
+               String [] datosO = datosOrg.toArray(new String[datosOrg.size()]);
+                ArrayAdapter<String> adaptadorO = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, datosO);
+                adaptadorO.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                organizadores.setAdapter(adaptadorO);
+
+            }
+
+            @Override
+            public void onFailed(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        txt_cerrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog1.dismiss();
+            }
+        });
+        myDialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog1.show();
+
+        //Seteamos el comportamiento de los spinners
+        String as= "Ascendente";
+        String des="Descendente";
+        fechas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                /*if (i==0) {
+
+                }
+                Participante p = new Participante();
+                p.setNombre(nombreUsuario);
+                p.setId(idUsuario);
+                SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context), p);
+                recycler.setAdapter(adapter);
+
+                myDialog1.dismiss();
+            */
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        organizadores.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                String keyOrg = orgKeys.get(i);
+
+
+                ArrayList<Evento> eventosFiltrados = new ArrayList<>();
+
+                for (int w=0; w<eventos.size(); w++){
+                    if(eventos.get(w).getIdOrganizador().equals(keyOrg)){
+                        eventosFiltrados.add(eventos.get(w));
+                    }
+                }
+
+
+                Participante p = new Participante();
+                p.setNombre(nombreUsuario);
+                p.setId(idUsuario);
+                SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventosFiltrados, new Dialog(context), p);
+                recycler.setAdapter(adapter);
+
+                //myDialog1.dismiss();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
         });
 
     }

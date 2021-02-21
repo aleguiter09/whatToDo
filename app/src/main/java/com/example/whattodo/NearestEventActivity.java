@@ -44,7 +44,6 @@ public class NearestEventActivity extends AppCompatActivity implements OnMapRead
     Spinner spinner;
     private LatLng myLocation;
     Database databaseClass;
-    ArrayList<Evento> eventos = new ArrayList<Evento>();
     private ArrayList<Marker> temporalRealTime = new ArrayList<>();
     private ArrayList<Marker> realTime = new ArrayList<>();
     Context context;
@@ -89,24 +88,6 @@ public class NearestEventActivity extends AppCompatActivity implements OnMapRead
 
         //Agregamos marcadores de todos los eventos obtenidos de la bdd
 
-        /*ArrayList<MarkerOptions> listaMarcadores = new ArrayList<MarkerOptions>();
-        for(int n=0; n<eventos.size(); n++) {
-            System.out.println("NOMBRE :  " +eventos.get(n).getNombre());
-            MarkerOptions m1 = new MarkerOptions().icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-            listaMarcadores.add(m1);
-        }
-
-        for(int i=0; i<eventos.size(); i++){
-            System.out.println(eventos.get(i).getNombre());
-            double lat = Double.parseDouble(eventos.get(i).getLatitud());
-            double lon = Double.parseDouble(eventos.get(i).getLontitud());
-            LatLng event = new LatLng(lat,lon);
-            listaMarcadores.get(i).title(eventos.get(i).getNombre());
-            listaMarcadores.get(i).snippet(eventos.get(i).getFecha());
-            listaMarcadores.get(i).position(event);
-            myMap.addMarker(listaMarcadores.get(i));
-
-        }*/
 
         databaseClass.mReadDataOnce("Events", new OnGetDataListener() {
             ProgressDialog mProgressDialog = null;
@@ -156,38 +137,6 @@ public class NearestEventActivity extends AppCompatActivity implements OnMapRead
 
             }
         });
-
-             /*   .addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot snapshot1 : snapshot.getChildren()){
-                    //Evento ev = snapshot1.getValue(Evento.class);
-
-                    String nombreEvento = snapshot1.child("nombreEvento").getValue().toString();
-                    String fechaEvento = snapshot.child("fechaEvento").getValue().toString();
-                    String latitud = snapshot1.child("latitud").getValue().toString();
-                    String longitud = snapshot1.child("longitud").getValue().toString();
-
-                    double lat = Double.parseDouble(latitud);
-                    double lon = Double.parseDouble(longitud);
-
-                    MarkerOptions markerOptions = new MarkerOptions()
-                            .position(new LatLng(lat,lon))
-                            .title(nombreEvento)
-                            .snippet(fechaEvento)
-                            .icon(BitmapDescriptorFactory .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-
-                    temporalRealTime.add(myMap.addMarker(markerOptions));
-                }
-                realTime.clear();
-                realTime.addAll(temporalRealTime);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
 
         configurarMapa();
     }
