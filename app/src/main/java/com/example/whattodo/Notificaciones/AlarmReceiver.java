@@ -1,4 +1,4 @@
-package com.example.whattodo;
+package com.example.whattodo.Notificaciones;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -94,6 +94,9 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
         String valor = getIntent().getStringExtra("usuario");
         headerText.setText("Hola, " + valor + "!");
 
+
+
+
     }
 
     @Override

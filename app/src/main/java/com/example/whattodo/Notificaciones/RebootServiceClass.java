@@ -1,9 +1,11 @@
-package com.example.whattodo;
+package com.example.whattodo.Notificaciones;
 import android.app.IntentService;
 import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
+import com.example.whattodo.R;
 
 public class RebootServiceClass extends IntentService {
 

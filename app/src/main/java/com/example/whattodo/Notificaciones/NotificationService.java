@@ -1,4 +1,4 @@
-package com.example.whattodo;
+package com.example.whattodo.Notificaciones;
 
 import android.annotation.TargetApi;
 import android.app.IntentService;
@@ -16,6 +16,7 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
+import com.example.whattodo.R;
 import com.example.whattodo.menus.MenuParticipantActivity;
 
 public class NotificationService extends IntentService {
