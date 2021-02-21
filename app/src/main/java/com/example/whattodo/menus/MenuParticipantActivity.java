@@ -9,19 +9,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.whattodo.CreateEventActivity;
 import com.example.whattodo.LoginActivity;
 import com.example.whattodo.NearestEventActivity;
+import com.example.whattodo.Notificaciones.Utils;
 import com.example.whattodo.R;
 import com.example.whattodo.RegisterActivity;
 import com.example.whattodo.SerieRecyclerAdapter;
@@ -39,6 +45,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MenuParticipantActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -56,11 +63,13 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
     //Header
     View header;
     TextView headerText;
-
-
-
     //Strgin nombre
     String nombreUsuario, idUsuario;
+
+    int alarmID = 1;
+    SharedPreferences settings;
+
+    Button btnNotificacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +103,54 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
         String valor = getIntent().getStringExtra("usuario");
         headerText.setText("Hola, " + valor + "!");
 
+        btnNotificacion = (Button) findViewById(R.id.btnNotificacion);
 
+        settings = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
 
+        btnNotificacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(MenuParticipantActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        String finalHour, finalMinute;
+
+                        finalHour = "" + selectedHour;
+                        finalMinute = "" + selectedMinute;
+                        if (selectedHour < 10) finalHour = "0" + selectedHour;
+                        if (selectedMinute < 10) finalMinute = "0" + selectedMinute;
+
+                        Calendar today = Calendar.getInstance();
+
+                        today.set(Calendar.HOUR_OF_DAY, selectedHour);
+                        today.set(Calendar.MINUTE, selectedMinute);
+                        today.set(Calendar.SECOND, 0);
+
+                        System.out.println("HOYYYYYYyyy: " + today);
+
+                        SharedPreferences.Editor edit = settings.edit();
+                        edit.putString("hour", finalHour);
+                        edit.putString("minute", finalMinute);
+
+                        //SAVE ALARM TIME TO USE IT IN CASE OF REBOOT
+                        edit.putInt("alarmID", alarmID);
+                        edit.putLong("alarmTime", today.getTimeInMillis());
+
+                        edit.commit();
+
+                        Toast.makeText(MenuParticipantActivity.this, finalHour + ":" + finalMinute, Toast.LENGTH_LONG).show();
+
+                        Utils.setAlarm(alarmID, today.getTimeInMillis(), MenuParticipantActivity.this);
+                    }
+                }, hour, minute, true);//Yes 24 hour time
+                mTimePicker.setTitle("Selecciona la hora");
+                mTimePicker.show();
+            }
+        });
 
     }
 
