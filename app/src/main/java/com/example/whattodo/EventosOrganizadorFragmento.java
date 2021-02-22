@@ -102,7 +102,7 @@ public class EventosOrganizadorFragmento extends Fragment {
 
                 recycler = (RecyclerView) vista.findViewById(R.id.recyclerEventosPerfil);
                 recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-                adapter = new SerieRecyclerAdapter(eventos, new Dialog(getContext()), null);
+                adapter = new SerieRecyclerAdapter(eventos, new Dialog(getContext()), null, false);
                 recycler.setAdapter(adapter);
             }
 

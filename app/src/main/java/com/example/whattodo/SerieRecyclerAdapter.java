@@ -30,9 +30,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +43,7 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
     Participante participante;
     ArrayList<String> listaNombres, listaDescripciones, listaInicioEvento, listaFinEvento, listaFechas, listaUbicaciones, listaLatitudes, listaLongitudes, listaIdOrganizadores;
     Dialog myDialog;
+    boolean opinar;
 
     //DatabaseReference databaseReference;
     Database databaseClass;
@@ -54,7 +52,7 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
 
     Context context;
 
-    public SerieRecyclerAdapter(ArrayList<Evento> events, Dialog dialog, Participante p) {
+    public SerieRecyclerAdapter(ArrayList<Evento> events, Dialog dialog, Participante p, boolean opinar) {
         participante = p;
         listaEventos = events;
         listaNombres = new ArrayList<String>();
@@ -68,6 +66,7 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
         listaIdOrganizadores = new ArrayList<String>();
         myDialog = dialog;
         context = myDialog.getContext();
+        this.opinar = opinar;
 
         //databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseClass = new Database();
@@ -104,7 +103,7 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
     public class EventoViewHolder extends RecyclerView.ViewHolder{
         ImageView icono;
         TextView nombreTV, fecha_horarioTV, descripcionTV;
-        Button btnVerDescripcion, btnAsistir;
+        Button btnVerDescripcion, btnAsistir, btnOpinar;
 
         EventoViewHolder (@NonNull View base){
             super(base);
@@ -114,6 +113,7 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
             descripcionTV = (TextView) base.findViewById(R.id.descripcion_pop_up);
             btnVerDescripcion = (Button) base.findViewById(R.id.verMas);
             btnAsistir = (Button) base.findViewById(R.id.btnAsistir);
+            btnOpinar = (Button) base.findViewById(R.id.btnOpinar);
         }
 
         public void asignarDatos(Evento evento, String nombreEvento, String descripcion, String inicioEvento, String finEvento, String fecha, String ubicacion, String latitud, String longitud, String idOrganizador){
@@ -129,6 +129,9 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
 
             if(participante == null) btnAsistir.setVisibility(View.GONE);
             else btnAsistir.setVisibility(View.VISIBLE);
+
+            if(opinar) btnOpinar.setVisibility(View.VISIBLE);
+            else btnOpinar.setVisibility(View.GONE);
 
             btnAsistir.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -157,6 +160,20 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
                     AlertDialog confirmar = alert.create();
                     confirmar.setTitle("Confirmar asistencia");
                     confirmar.show();
+                }
+            });
+
+
+            Intent opinarOrganizador = new Intent(context, PuntuarOrganizadorActivity.class);
+            opinarOrganizador.putExtra("nombreEvento", nombreEvento);
+            opinarOrganizador.putExtra("fechaEvento", fecha);
+            opinarOrganizador.putExtra("inicioEvento", inicioEvento);
+            opinarOrganizador.putExtra("idOrganizador", idOrganizador);
+
+            btnOpinar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(context, opinarOrganizador,null);
                 }
             });
         }

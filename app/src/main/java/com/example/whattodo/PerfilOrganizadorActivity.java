@@ -2,8 +2,6 @@ package com.example.whattodo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
@@ -11,7 +9,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,7 +50,7 @@ public class PerfilOrganizadorActivity extends AppCompatActivity {
     private void setUpViewPager(ViewPager viewPager, Context context) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new EventosOrganizadorFragmento(idOrganizador), "Eventos");
-        adapter.addFragment(new SobreOrganizadorFragmento(idOrganizador), "Opiniones");
+        adapter.addFragment(new OpinionesOrganizadorFragmento(idOrganizador), "Opiniones");
         viewPager.setAdapter(adapter);
     }
 

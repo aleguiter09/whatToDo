@@ -1,7 +1,5 @@
 package com.example.whattodo;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.whattodo.model.Evento;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class SobreOrganizadorFragmento extends Fragment {
+public class OpinionesOrganizadorFragmento extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -36,17 +32,18 @@ public class SobreOrganizadorFragmento extends Fragment {
     ArrayList<String> listaNombres = new ArrayList<String>();
     ArrayList<String> listaPuntuaciones = new ArrayList<String>();
     ArrayList<String> listaComentarios = new ArrayList<String>();
+    ArrayList<String> listaFechaOpinion = new ArrayList<String>();
     String idOrganizador;
 
-    public SobreOrganizadorFragmento() {
+    public OpinionesOrganizadorFragmento() {
     }
 
-    public SobreOrganizadorFragmento(String idOrganizador) {
+    public OpinionesOrganizadorFragmento(String idOrganizador) {
         this.idOrganizador = idOrganizador;
     }
 
-    public static SobreOrganizadorFragmento newInstance(String param1, String param2) {
-        SobreOrganizadorFragmento fragment = new SobreOrganizadorFragmento();
+    public static OpinionesOrganizadorFragmento newInstance(String param1, String param2) {
+        OpinionesOrganizadorFragmento fragment = new OpinionesOrganizadorFragmento();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -81,19 +78,23 @@ public class SobreOrganizadorFragmento extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot ds: snapshot.getChildren()){
+                        if(ds.child("idOrganizador").getValue().toString().equals(idOrganizador)) {
                             String nombreUsuario = ds.child("nombreUsuario").getValue().toString();
                             String puntuacion = ds.child("puntuacion").getValue().toString();
                             String comentario = ds.child("comentario").getValue().toString();
+                            String fechaOpinion = ds.child("fechaOpinion").getValue().toString();
 
                             listaNombres.add(nombreUsuario);
                             listaPuntuaciones.add(puntuacion);
                             listaComentarios.add(comentario);
+                            listaFechaOpinion.add(fechaOpinion);
+                        }
                     }
                 }
 
                 recycler = (RecyclerView) vista.findViewById(R.id.recyclerPuntuacionPerfil);
                 recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-                adapter = new PuntuacionAdapter(listaNombres, listaPuntuaciones, listaComentarios);
+                adapter = new PuntuacionAdapter(listaNombres, listaPuntuaciones, listaComentarios, listaFechaOpinion);
                 recycler.setAdapter(adapter);
             }
 

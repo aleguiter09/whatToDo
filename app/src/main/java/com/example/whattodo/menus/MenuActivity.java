@@ -130,7 +130,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                         eventos.add(e);
                     }
 
-                    SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context), null);
+                    SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context), null, false);
                     recycler.setAdapter(adapter);
                 }
                 if (mProgressDialog != null && mProgressDialog.isShowing()) {

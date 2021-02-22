@@ -167,7 +167,7 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
                         }
                     }
 
-                    SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context), null);
+                    SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context), null, false);
                     recycler.setAdapter(adapter);
                 }
                 if (mProgressDialog != null && mProgressDialog.isShowing()) {

@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/puntuacionCardView"
-        android:layout_width="397dp"
+        android:layout_width="398dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
@@ -29,26 +29,25 @@
                 android:layout_height="97dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerInParent="true"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="15dp"
                 android:src="@drawable/usuario"
-                app:layout_constraintBottom_toTopOf="@+id/comentario"
+                app:layout_constraintBottom_toTopOf="@+id/ratingBarPuntuacion"
                 app:layout_constraintEnd_toStartOf="@+id/nombreUsuarioPuntuacion"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/nombreUsuarioPuntuacion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginLeft="18dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="72dp"
-                android:layout_marginRight="72dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="92dp"
+                android:layout_marginRight="92dp"
                 android:text="Nombre usuario"
                 android:textAllCaps="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -58,28 +57,28 @@
                 android:textIsSelectable="false"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/ratingBarPuntuacion"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/circleImageView"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <RatingBar
                 android:id="@+id/ratingBarPuntuacion"
-                android:layout_width="233dp"
-                android:layout_height="47dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_width="244dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="138dp"
+                android:layout_marginRight="138dp"
+                android:layout_marginBottom="14dp"
                 android:numStars="5"
                 android:progressTint="@color/golden"
                 app:layout_constraintBottom_toTopOf="@+id/comentario"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.366"
-                app:layout_constraintStart_toEndOf="@+id/circleImageView"
-                app:layout_constraintTop_toBottomOf="@+id/nombreUsuarioPuntuacion" />
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/circleImageView"
+                android:isIndicator="true"/>
 
             <TextView
                 android:id="@+id/comentario"
@@ -87,18 +86,39 @@
                 android:layout_height="65dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginTop="14dp"
                 android:layout_marginEnd="21dp"
                 android:layout_marginRight="21dp"
                 android:layout_marginBottom="8dp"
                 android:text="Comentario: "
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/white"
                 android:textColorHighlight="@color/black"
                 android:textColorHint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ratingBarPuntuacion" />
+
+            <TextView
+                android:id="@+id/fechaOpinionTV"
+                android:layout_width="238dp"
+                android:layout_height="27dp"
+                android:layout_marginStart="19dp"
+                android:layout_marginLeft="19dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginBottom="37dp"
+                android:text="Fecha opinion:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/ratingBarPuntuacion"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.285"
+                app:layout_constraintStart_toEndOf="@+id/circleImageView"
+                app:layout_constraintTop_toBottomOf="@+id/nombreUsuarioPuntuacion" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

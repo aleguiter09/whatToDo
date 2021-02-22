@@ -100,7 +100,6 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseClass = new Database();
-        databaseClass = new Database();
 
         context = this;
 
@@ -215,7 +214,7 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
                     p.setNombre(nombreUsuario);
                     p.setId(idUsuario);
 
-                    SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context), p);
+                    SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context), p, false);
                     recycler.setAdapter(adapter);
                 }
                 if (mProgressDialog != null && mProgressDialog.isShowing()) {
@@ -391,7 +390,7 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
                 Participante p = new Participante();
                 p.setNombre(nombreUsuario);
                 p.setId(idUsuario);
-                SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventosFiltrados, new Dialog(context), p);
+                SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventosFiltrados, new Dialog(context), p, false);
                 recycler.setAdapter(adapter);
 
                 //myDialog1.dismiss();

@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.example.whattodo.model.Database;
 import com.example.whattodo.model.Evento;
@@ -33,6 +34,7 @@ public class EventosPasadosActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     Context context;
     String id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +133,7 @@ public class EventosPasadosActivity extends AppCompatActivity {
                     }
 
                     System.out.println("EVENTOSSS: "+eventos);
-                    SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context), null);
+                    SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context), null, true);
                     recycler.setAdapter(adapter);
                 }
                 if (mProgressDialog != null && mProgressDialog.isShowing()) {
@@ -158,8 +160,6 @@ public class EventosPasadosActivity extends AppCompatActivity {
 
         Date hoy = dateFormat.parse(dia + "/" + mes + "/" + anio);
         Date dateEvento = dateFormat.parse(fechaEvento);
-        System.out.println("Date-1: " + dateFormat.format(hoy));
-        System.out.println("Date-2: " + dateFormat.format(dateEvento));
 
         if(hoy.before(dateEvento))  retorno = false;
         else retorno = true;

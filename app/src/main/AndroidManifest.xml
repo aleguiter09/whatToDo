@@ -20,9 +20,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatToDo">
-        <activity android:name=".EventosPasadosActivity"
-            android:parentActivityName=".menus.MenuParticipantActivity"
+        <activity android:name=".PuntuarOrganizadorActivity"
+            android:parentActivityName=".EventosPasadosActivity"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
+        <activity
+            android:name=".EventosPasadosActivity"
+            android:parentActivityName=".menus.MenuParticipantActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".NearestEventActivity"
             android:parentActivityName=".menus.MenuParticipantActivity" />
