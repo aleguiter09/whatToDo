@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -72,9 +73,10 @@ public class TicketRecyclerAdapter extends RecyclerView.Adapter<TicketRecyclerAd
     }
 
     public class TicketViewHolder extends RecyclerView.ViewHolder {
-        ImageView icono;
-        TextView nombre, txtFechaRecordatorio, txtHoraRecordatorio;
-        Button btnVerEvento, btnRecordatorio, btnFechaRecordatorio, btnHoraRecordatorio, btnRecordar;
+        ImageView icono, imagenCalendario, imagenReloj;
+        TextView nombre, tvCerrar;
+        Button btnVerEvento, btnRecordatorio, btnRecordar;
+        EditText editFechaRecordatorio, editHoraRecordatorio;
 
         public TicketViewHolder(@NonNull View base) {
             super(base);
@@ -107,11 +109,19 @@ public class TicketRecyclerAdapter extends RecyclerView.Adapter<TicketRecyclerAd
 
             myDialog.setContentView(R.layout.pop_up_crear_recordatorio);
 
-            btnFechaRecordatorio = (Button) myDialog.findViewById(R.id.btnFechaRecordatorio);
-            btnHoraRecordatorio = (Button) myDialog.findViewById(R.id.btnHoraRecordatorio);
+            imagenCalendario = (ImageView) myDialog.findViewById(R.id.imagenCalendarioRecordatorio);
+            imagenReloj = (ImageView) myDialog.findViewById(R.id.imagenRelojRecordatorio);
             btnRecordar = (Button) myDialog.findViewById(R.id.btnRecordar);
-            txtFechaRecordatorio = (TextView) myDialog.findViewById(R.id.txtFechaRercordatorio);
-            txtHoraRecordatorio = (TextView) myDialog.findViewById(R.id.txtHoraRecordatorio);
+            editFechaRecordatorio = (EditText) myDialog.findViewById(R.id.editFechaRecordatorio);
+            editHoraRecordatorio = (EditText) myDialog.findViewById(R.id.editHoraRecordatorio);
+            tvCerrar = (TextView) myDialog.findViewById(R.id.txt_cerrar_recordatorio);
+
+            tvCerrar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    myDialog.dismiss();
+                }
+            });
 
             Calendar mcurrentTime = Calendar.getInstance();
             int anio = mcurrentTime.get(Calendar.YEAR);
@@ -123,14 +133,14 @@ public class TicketRecyclerAdapter extends RecyclerView.Adapter<TicketRecyclerAd
             Calendar today = Calendar.getInstance();
             SharedPreferences.Editor edit = settings.edit();
 
-            btnFechaRecordatorio.setOnClickListener(new View.OnClickListener() {
+            imagenCalendario.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     DatePickerDialog datePickerDialog;
                     datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker datePicker, int selectedYear, int selectedMonth, int selectedDay) {
-                            txtFechaRecordatorio.setText(selectedDay+ "/" + (selectedMonth+1) + "/" + selectedYear);
+                            editFechaRecordatorio.setText(selectedDay+ "/" + (selectedMonth+1) + "/" + selectedYear);
 
                             today.set(Calendar.YEAR, selectedYear);
                             today.set(Calendar.MONTH, selectedMonth);
@@ -153,7 +163,7 @@ public class TicketRecyclerAdapter extends RecyclerView.Adapter<TicketRecyclerAd
                 }
             });
 
-            btnHoraRecordatorio.setOnClickListener(new View.OnClickListener() {
+            imagenReloj.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     TimePickerDialog mTimePicker;
@@ -178,7 +188,7 @@ public class TicketRecyclerAdapter extends RecyclerView.Adapter<TicketRecyclerAd
                             edit.putInt("alarmID", alarmID);
                             edit.putLong("alarmTime", today.getTimeInMillis());
 
-                            txtHoraRecordatorio.setText(finalHour + ":" + finalMinute + "hs");
+                            editHoraRecordatorio.setText(finalHour + ":" + finalMinute + "hs");
 
                         }
                     }, hour, minute, true);//Yes 24 hour time
@@ -190,18 +200,19 @@ public class TicketRecyclerAdapter extends RecyclerView.Adapter<TicketRecyclerAd
             btnRecordar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(txtFechaRecordatorio.getText().toString().isEmpty() || txtHoraRecordatorio.getText().toString().isEmpty()){
+                    if(editFechaRecordatorio.getText().toString().isEmpty() || editHoraRecordatorio.getText().toString().isEmpty()){
                         Toast.makeText(context, "Debe elegir fecha y hora!", Toast.LENGTH_LONG).show();
                     }
 
-                    if(!txtFechaRecordatorio.getText().toString().isEmpty() && !txtHoraRecordatorio.getText().toString().isEmpty()){
+                    if(!editFechaRecordatorio.getText().toString().isEmpty() && !editHoraRecordatorio.getText().toString().isEmpty()){
                         String mensaje = "Recordatorio para asistir al evento "+ nombreEvento + " el día " + fecha + " a las " + inicioEvento + "hs." ;
 
                         edit.commit();
                         Utils.setAlarm(alarmID, today.getTimeInMillis(), context, mensaje);
 
-                        txtFechaRecordatorio.setText(null);
-                        txtHoraRecordatorio.setText(null);
+                        editFechaRecordatorio.setText(null);
+                        editHoraRecordatorio.setText(null);
+                        Toast.makeText(context, "Se ha generado su recordatorio!", Toast.LENGTH_LONG).show();
                     }
                 }
             });

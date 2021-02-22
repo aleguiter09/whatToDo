@@ -21,76 +21,83 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/txtFechaRercordatorio"
-        android:layout_width="230dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="59dp"
-        android:layout_marginEnd="46dp"
-        android:layout_marginRight="46dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnFechaRecordatorio"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/txtHoraRecordatorio"
-        android:layout_width="231dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="27dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginRight="45dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnHoraRecordatorio"
-        app:layout_constraintTop_toBottomOf="@+id/txtFechaRercordatorio" />
-
-    <Button
-        android:id="@+id/btnFechaRecordatorio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="58dp"
-        android:layout_marginEnd="27dp"
-        android:layout_marginRight="27dp"
-        android:text="fecha"
-        app:layout_constraintEnd_toStartOf="@+id/txtFechaRercordatorio"
+    <ImageView
+        android:id="@+id/imagenCalendarioRecordatorio"
+        android:layout_width="92dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginTop="34dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/calendario" />
 
-    <Button
-        android:id="@+id/btnHoraRecordatorio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="16dp"
-        android:text="hora"
+    <ImageView
+        android:id="@+id/imagenRelojRecordatorio"
+        android:layout_width="86dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="42dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/txtHoraRecordatorio"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnFechaRecordatorio"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/imagenCalendarioRecordatorio"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/reloj" />
+
+    <EditText
+        android:id="@+id/editHoraRecordatorio"
+        android:layout_width="138dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="74dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginRight="52dp"
+        android:backgroundTint="@color/color_fondo"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="none"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btnRecordar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imagenRelojRecordatorio"
+        app:layout_constraintTop_toBottomOf="@+id/editFechaRecordatorio" />
+
+    <EditText
+        android:id="@+id/editFechaRecordatorio"
+        android:layout_width="138dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginRight="52dp"
+        android:backgroundTint="@color/color_fondo"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="none"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.027"
+        app:layout_constraintStart_toEndOf="@+id/imagenCalendarioRecordatorio"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnRecordar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginBottom="8dp"
         android:text="recordar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.949"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtHoraRecordatorio"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/editHoraRecordatorio" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
