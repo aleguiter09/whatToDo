@@ -173,34 +173,43 @@ public class CreateEventActivity extends AppCompatActivity {
         if(nombreEvento_str.isEmpty()){
             nombreEvento.setError("Campo obligatorio");
             retorno = false;
-        }/*else if(checkEventExist()){
-            nombreEvento.setError("Ese evento ya existe");
-            retorno = false;
-        }*/
+        }else{
+            nombreEvento.setError(null);
+        }
 
         if(fechaEvento_str.isEmpty()){
             fechaEvento.setError("Campo obligatorio");
             retorno = false;
+        }else {
+            fechaEvento.setError(null);
         }
 
         if(inicioEvento_str.isEmpty()){
             inicioEvento.setError("Campo obligatorio");
             retorno = false;
+        }else {
+            inicioEvento.setError(null);
         }
 
         if(finEvento_str.isEmpty()){
             finEvento.setError("Campo obligatorio");
             retorno = false;
+        }else{
+            finEvento.setError(null);
         }
 
         if(descripcion_str.isEmpty()){
             descripcion.setError("Campo obligatorio");
             retorno = false;
+        }else{
+            descripcion.setError(null);
         }
 
         if(ubicacion_str.isEmpty()){
             ubicacionTV.setError("Campo obligatorio");
             retorno = false;
+        }else{
+            ubicacionTV.setError(null);
         }
 
         return retorno;
@@ -272,7 +281,5 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         }
     }
-
-
 
 }
