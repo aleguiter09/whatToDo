@@ -11,4 +11,6 @@
     <color name="blanco">#ffff</color>
     <color name="color_fondo">#4F5254</color>
     <color name="golden">#ffd700</color>
+    <color name="fondo_gris_oscuro">#212121</color>
+
 </resources>

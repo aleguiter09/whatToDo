@@ -2,6 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.whattodo">
 
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- MAKE ALARMS RESTART ON REBOOT -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -33,10 +42,9 @@
             android:name=".TicketsListActivity"
             android:parentActivityName=".menus.MenuParticipantActivity"/>
 
-        <activity android:name=".MapActivity" />
         <activity
             android:name=".CreateEventActivity"
-            android:parentActivityName=".menus.MenuOrganizerActivity" />
+            android:parentActivityName=".menus.MenuOrganizerActivity"/>
         <activity
             android:name=".menus.MenuOrganizerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -94,6 +102,15 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name=".Notificaciones.AlarmReceiver"
+            android:enabled="true" />
+
+        <service
+            android:name=".Notificaciones.NotificationService"
+            android:enabled="true" />
+
     </application>
 
 </manifest>

@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.view.Menu;
@@ -24,13 +26,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.whattodo.CreateEventActivity;
 import com.example.whattodo.LoginActivity;
 import com.example.whattodo.NearestEventActivity;
 import com.example.whattodo.OnGetDataListener;
+import com.example.whattodo.Notificaciones.Utils;
 import com.example.whattodo.R;
 import com.example.whattodo.RegisterActivity;
 import com.example.whattodo.SerieRecyclerAdapter;
@@ -54,6 +60,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MenuParticipantActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 

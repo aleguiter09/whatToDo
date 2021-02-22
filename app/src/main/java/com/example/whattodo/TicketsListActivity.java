@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.whattodo.model.Evento;
@@ -29,6 +30,7 @@ public class TicketsListActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     ArrayList<Ticket> tickets = new ArrayList<Ticket>();
     Context context;
+    SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class TicketsListActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
+        context = this;
 
         toolbarTicketList = findViewById(R.id.toolbarTicketList);
         setSupportActionBar(toolbarTicketList);
@@ -44,6 +47,7 @@ public class TicketsListActivity extends AppCompatActivity {
         recycler = (RecyclerView) findViewById(R.id.recyclerTicket);
         recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
+        settings = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
         getTicketsFromFirebase();
     }
 
@@ -66,7 +70,7 @@ public class TicketsListActivity extends AppCompatActivity {
                         }
                     }
 
-                    TicketRecyclerAdapter adapter = new TicketRecyclerAdapter(tickets);
+                    TicketRecyclerAdapter adapter = new TicketRecyclerAdapter(tickets, settings, context);
                     recycler.setAdapter(adapter);
                 }
 
