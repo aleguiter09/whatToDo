@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 
 import androidx.core.app.NotificationCompat;
 
@@ -45,7 +46,8 @@ public class NotificationService extends IntentService {
         Resources res = this.getResources();
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
 
-        String message = "RECORDATORIOOOO";
+        Bundle extras = intent2.getExtras();
+        String message = extras.getString("mensaje");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             final int NOTIFY_ID = 0; // ID of notification
@@ -71,7 +73,7 @@ public class NotificationService extends IntentService {
             builder.setContentTitle(getString(R.string.app_name)).setCategory(Notification.CATEGORY_SERVICE)
                     .setSmallIcon(R.drawable.logo)   // required
                     .setContentText(message)
-                    .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.usuario))
+                    .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.logo))
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setAutoCancel(true)
                     .setSound(soundUri)
@@ -88,7 +90,7 @@ public class NotificationService extends IntentService {
             notification = new NotificationCompat.Builder(this)
                     .setContentIntent(pendingIntent)
                     .setSmallIcon(R.drawable.logo)
-                    .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.usuario))
+                    .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.logo))
                     .setSound(soundUri)
                     .setAutoCancel(true)
                     .setContentTitle(getString(R.string.app_name)).setCategory(Notification.CATEGORY_SERVICE)

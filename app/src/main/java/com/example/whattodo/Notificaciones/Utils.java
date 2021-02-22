@@ -6,15 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.example.whattodo.Notificaciones.AlarmReceiver;
-
 import static android.content.Context.ALARM_SERVICE;
 
 public class Utils {
 
-    public static void setAlarm(int i, Long timestamp, Context ctx) {
+    public static void setAlarm(int i, Long timestamp, Context ctx, String mensaje) {
         AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(ALARM_SERVICE);
         Intent alarmIntent = new Intent(ctx, AlarmReceiver.class);
+        alarmIntent.putExtra("mensaje", mensaje);
         PendingIntent pendingIntent;
         pendingIntent = PendingIntent.getBroadcast(ctx, i, alarmIntent, PendingIntent.FLAG_ONE_SHOT);
         alarmIntent.setData((Uri.parse("custom://" + System.currentTimeMillis())));

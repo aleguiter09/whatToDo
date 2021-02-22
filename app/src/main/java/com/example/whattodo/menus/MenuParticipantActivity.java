@@ -66,11 +66,6 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
     //Strgin nombre
     String nombreUsuario, idUsuario;
 
-    int alarmID = 1;
-    SharedPreferences settings;
-
-    Button btnNotificacion;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,54 +98,6 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
         String valor = getIntent().getStringExtra("usuario");
         headerText.setText("Hola, " + valor + "!");
 
-        btnNotificacion = (Button) findViewById(R.id.btnNotificacion);
-
-        settings = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
-
-        btnNotificacion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = mcurrentTime.get(Calendar.MINUTE);
-                TimePickerDialog mTimePicker;
-                mTimePicker = new TimePickerDialog(MenuParticipantActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        String finalHour, finalMinute;
-
-                        finalHour = "" + selectedHour;
-                        finalMinute = "" + selectedMinute;
-                        if (selectedHour < 10) finalHour = "0" + selectedHour;
-                        if (selectedMinute < 10) finalMinute = "0" + selectedMinute;
-
-                        Calendar today = Calendar.getInstance();
-
-                        today.set(Calendar.HOUR_OF_DAY, selectedHour);
-                        today.set(Calendar.MINUTE, selectedMinute);
-                        today.set(Calendar.SECOND, 0);
-
-                        System.out.println("HOYYYYYYyyy: " + today);
-
-                        SharedPreferences.Editor edit = settings.edit();
-                        edit.putString("hour", finalHour);
-                        edit.putString("minute", finalMinute);
-
-                        //SAVE ALARM TIME TO USE IT IN CASE OF REBOOT
-                        edit.putInt("alarmID", alarmID);
-                        edit.putLong("alarmTime", today.getTimeInMillis());
-
-                        edit.commit();
-
-                        Toast.makeText(MenuParticipantActivity.this, finalHour + ":" + finalMinute, Toast.LENGTH_LONG).show();
-
-                        Utils.setAlarm(alarmID, today.getTimeInMillis(), MenuParticipantActivity.this);
-                    }
-                }, hour, minute, true);//Yes 24 hour time
-                mTimePicker.setTitle("Selecciona la hora");
-                mTimePicker.show();
-            }
-        });
 
     }
 

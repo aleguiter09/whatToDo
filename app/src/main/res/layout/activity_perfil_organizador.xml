@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".PerfilOrganizadorActivity"
-    android:background="@color/color_fondo">
+    android:background="@color/fondo_gris_oscuro">
 
     <RelativeLayout
         android:id="@+id/relative_one"

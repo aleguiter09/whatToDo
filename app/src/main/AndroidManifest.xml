@@ -42,10 +42,9 @@
             android:name=".TicketsListActivity"
             android:parentActivityName=".menus.MenuParticipantActivity"/>
 
-        <activity android:name=".MapActivity" />
         <activity
             android:name=".CreateEventActivity"
-            android:parentActivityName=".menus.MenuOrganizerActivity" />
+            android:parentActivityName=".menus.MenuOrganizerActivity"/>
         <activity
             android:name=".menus.MenuOrganizerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -103,6 +102,15 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name=".Notificaciones.AlarmReceiver"
+            android:enabled="true" />
+
+        <service
+            android:name=".Notificaciones.NotificationService"
+            android:enabled="true" />
+
     </application>
 
 </manifest>

@@ -4,13 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +40,7 @@ public class CreateEventActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     Button btnUbicacion, btnCrearEvento;
     EditText nombreEvento, fechaEvento, inicioEvento, finEvento, descripcion, ubicacionTV;
+    ImageView imagenCalendario, imagenRelojInicio, imagenRelojFin;
     String nombreEvento_str, fechaEvento_str, inicioEvento_str, finEvento_str, descripcion_str, ubicacion_str;
     String nombreOrganizador, latitudGuardar, longitudGuardar;
     Context context;
@@ -51,6 +59,7 @@ public class CreateEventActivity extends AppCompatActivity {
         createEventToolbar = findViewById(R.id.createEventToolbar);
         setSupportActionBar(createEventToolbar);
 
+
         btnCrearEvento = (Button) findViewById(R.id.createEventButton);
         btnUbicacion = (Button) findViewById(R.id.locationButton);
         nombreEvento = (EditText) findViewById(R.id.editTextEventName);
@@ -59,6 +68,9 @@ public class CreateEventActivity extends AppCompatActivity {
         finEvento = (EditText) findViewById(R.id.editTextFin);
         descripcion = (EditText) findViewById(R.id.editTextDesc);
         ubicacionTV = (EditText) findViewById(R.id.ubicacionCrearEvento);
+        imagenCalendario = (ImageView) findViewById(R.id.imagenCalendario);
+        imagenRelojInicio = (ImageView) findViewById(R.id.imagenRelojInicio);
+        imagenRelojFin = (ImageView) findViewById(R.id.imagenRelojFin);
 
         context = this;
 
@@ -74,6 +86,75 @@ public class CreateEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivityForResult(ubicacionMapa, REQUEST_CODE_MAPS);
+            }
+        });
+
+        Calendar mcurrentTime = Calendar.getInstance();
+        int anio = mcurrentTime.get(Calendar.YEAR);
+        int mes = mcurrentTime.get(Calendar.MONTH);
+        int dia = mcurrentTime.get(Calendar.DAY_OF_MONTH);
+        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = mcurrentTime.get(Calendar.MINUTE);
+
+        imagenCalendario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog;
+                datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int selectedYear, int selectedMonth, int selectedDay) {
+                        fechaEvento.setText(selectedDay+ "/" + (selectedMonth+1) + "/" + selectedYear);
+                    }
+                }, dia, mes, anio);
+
+                datePickerDialog.setTitle("Selecciona la fecha");
+                datePickerDialog.show();
+            }
+        });
+
+        imagenRelojInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        String finalHour, finalMinute;
+
+                        finalHour = "" + selectedHour;
+                        finalMinute = "" + selectedMinute;
+                        if (selectedHour < 10) finalHour = "0" + selectedHour;
+                        if (selectedMinute < 10) finalMinute = "0" + selectedMinute;
+
+                        inicioEvento.setText(finalHour + ":" + finalMinute + "hs");
+
+                    }
+                }, hour, minute, true);
+                mTimePicker.setTitle("Selecciona la hora");
+                mTimePicker.show();
+            }
+        });
+
+        imagenRelojFin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        String finalHour, finalMinute;
+
+                        finalHour = "" + selectedHour;
+                        finalMinute = "" + selectedMinute;
+                        if (selectedHour < 10) finalHour = "0" + selectedHour;
+                        if (selectedMinute < 10) finalMinute = "0" + selectedMinute;
+
+                        finEvento.setText(finalHour + ":" + finalMinute + "hs");
+
+                    }
+                }, hour, minute, true);
+                mTimePicker.setTitle("Selecciona la hora");
+                mTimePicker.show();
             }
         });
 

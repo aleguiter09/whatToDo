@@ -19,23 +19,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="Participant"/>
 
-    <Button
-        android:id="@+id/btnNotificacion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarParticipant" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerEventParticipant"
-        android:layout_width="402dp"
-        android:layout_height="625dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnNotificacion" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarParticipant" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
