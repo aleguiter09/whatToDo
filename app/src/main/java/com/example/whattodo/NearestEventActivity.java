@@ -2,6 +2,7 @@ package com.example.whattodo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
@@ -44,9 +45,11 @@ public class NearestEventActivity extends AppCompatActivity implements OnMapRead
     Spinner spinner;
     private LatLng myLocation;
     Database databaseClass;
+    ArrayList<Evento> eventos = new ArrayList<Evento>();
     private ArrayList<Marker> temporalRealTime = new ArrayList<>();
     private ArrayList<Marker> realTime = new ArrayList<>();
     Context context;
+    Toolbar nearestToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +63,14 @@ public class NearestEventActivity extends AppCompatActivity implements OnMapRead
         databaseClass = new Database();
         context = this;
 
+        nearestToolbar = findViewById(R.id.toolbarNearestEvent);
+        setSupportActionBar(nearestToolbar);
+
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        myMap=googleMap;
+        myMap = googleMap;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -85,10 +91,6 @@ public class NearestEventActivity extends AppCompatActivity implements OnMapRead
         double longitude = location.getLongitude();
         myLocation = new LatLng(latitude, longitude);
 
-
-        //Agregamos marcadores de todos los eventos obtenidos de la bdd
-
-
         databaseClass.mReadDataOnce("Events", new OnGetDataListener() {
             ProgressDialog mProgressDialog = null;
             @Override
@@ -105,8 +107,6 @@ public class NearestEventActivity extends AppCompatActivity implements OnMapRead
             @Override
             public void onSuccess(DataSnapshot snapshot) {
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
-                    //Evento ev = snapshot1.getValue(Evento.class);
-
                     String nombreEvento = snapshot1.child("nombreEvento").getValue().toString();
                     String fechaEvento = snapshot1.child("fechaEvento").getValue().toString();
                     String latitud = snapshot1.child("latitud").getValue().toString();
@@ -175,13 +175,10 @@ public class NearestEventActivity extends AppCompatActivity implements OnMapRead
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         myMap.addMarker(marcador);
 
-
-
         //Seteamos la funcion del spinner
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
                 switch (i) {
                     case 0:
                         LatLngBounds LIMIT1 = new LatLngBounds(new LatLng(myLocation.latitude-0.03, myLocation.longitude), new LatLng(myLocation.latitude+0.03, myLocation.longitude));

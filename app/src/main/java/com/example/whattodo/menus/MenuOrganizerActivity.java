@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,10 +20,12 @@ import android.widget.TextView;
 
 import com.example.whattodo.CreateEventActivity;
 import com.example.whattodo.LoginActivity;
+import com.example.whattodo.OnGetDataListener;
 import com.example.whattodo.PerfilOrganizadorActivity;
 import com.example.whattodo.R;
 import com.example.whattodo.RegisterActivity;
 import com.example.whattodo.SerieRecyclerAdapter;
+import com.example.whattodo.model.Database;
 import com.example.whattodo.model.Evento;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,8 +45,8 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
     Toolbar organizerToolbar;
     ActionBarDrawerToggle actionBarDrawerToggle;
     //Firebase
-    FirebaseAuth firebaseAuth;
-    DatabaseReference databaseReference;
+    FirebaseAuth firebaseAuth;//Firebase
+    Database databaseClass;
     //Adapter
     RecyclerView recycler;
     ArrayList<Evento> eventos = new ArrayList<Evento>();
@@ -58,7 +61,7 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
         setContentView(R.layout.activity_menu_organizer);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseClass = new Database();
 
         context = this;
 
@@ -126,11 +129,22 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
     }
 
     public void getEventsFromFirebase(){
-        databaseReference.child("Events").addValueEventListener(new ValueEventListener() {
+        databaseClass.mReadDataOnce("Events", new OnGetDataListener() {
+            ProgressDialog mProgressDialog = null;
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot ds: snapshot.getChildren()){
+            public void onStart() {
+                if (mProgressDialog == null) {
+                    mProgressDialog = new ProgressDialog(context);
+                    mProgressDialog.setMessage("Cargando..");
+                    mProgressDialog.setIndeterminate(true);
+                }
+                mProgressDialog.show();
+            }
+
+            @Override
+            public void onSuccess(DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
                         String nombreEvento = ds.child("nombreEvento").getValue().toString();
                         String descripcion = ds.child("descripcion").getValue().toString();
                         String inicioEvento = ds.child("inicioEvento").getValue().toString();
@@ -148,10 +162,13 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
                     SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context), null);
                     recycler.setAdapter(adapter);
                 }
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onFailed(DatabaseError databaseError) {}
         });
     }
 }

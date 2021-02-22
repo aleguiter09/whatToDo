@@ -204,22 +204,6 @@ public class SerieRecyclerAdapter extends RecyclerView.Adapter<SerieRecyclerAdap
                 Log.i("Valor de existe", "true");
             else
                 Log.i("Valor de existe", "false");
-
-            /*databaseReference.child("Tickets").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(DataSnapshot ds: snapshot.getChildren()) {
-                        if(ds.child("idEvento").getValue().toString().equals(evento.getIdEvento())) {
-                            if(ds.child("idParticipante").getValue().toString().equals(participante.getId())) {
-                                existe[0] = true;
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {}
-            });*/
         }
 
         public void guardarTicket(Evento evento) {

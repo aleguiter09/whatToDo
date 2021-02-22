@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 
 import android.content.Intent;
@@ -37,6 +38,7 @@ import com.example.whattodo.LoginActivity;
 import com.example.whattodo.NearestEventActivity;
 import com.example.whattodo.OnGetDataListener;
 import com.example.whattodo.Notificaciones.Utils;
+import com.example.whattodo.OnGetDataListener;
 import com.example.whattodo.R;
 import com.example.whattodo.RegisterActivity;
 import com.example.whattodo.SerieRecyclerAdapter;
@@ -60,7 +62,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class MenuParticipantActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -93,6 +94,7 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
         myDialog1 = new Dialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
+        databaseClass = new Database();
         databaseClass = new Database();
 
         context = this;
@@ -165,9 +167,20 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
     }
 
     public void getEventsFromFirebase(){
-        databaseReference.child("Events").addValueEventListener(new ValueEventListener() {
+        databaseClass.mReadDataOnce("Events", new OnGetDataListener() {
+            ProgressDialog mProgressDialog = null;
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onStart() {
+                if (mProgressDialog == null) {
+                    mProgressDialog = new ProgressDialog(context);
+                    mProgressDialog.setMessage("Cargando..");
+                    mProgressDialog.setIndeterminate(true);
+                }
+                mProgressDialog.show();
+            }
+
+            @Override
+            public void onSuccess(DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot ds: snapshot.getChildren()){
                         String nombreEvento = ds.child("nombreEvento").getValue().toString();
@@ -193,27 +206,44 @@ public class MenuParticipantActivity extends AppCompatActivity implements Naviga
                     SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context), p);
                     recycler.setAdapter(adapter);
                 }
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
+                }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onFailed(DatabaseError databaseError) {}
         });
     }
 
     public void getUserInfo() {
         String id = firebaseAuth.getCurrentUser().getUid();
         idUsuario = id;
-        databaseReference.child("Users").child(id).addValueEventListener(new ValueEventListener() {
+        databaseClass.mReadDataOnce("Users", new OnGetDataListener() {
+            ProgressDialog mProgressDialog = null;
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
-                    nombreUsuario = (String) snapshot.child("name").getValue();
+            public void onStart() {
+                if (mProgressDialog == null) {
+                    mProgressDialog = new ProgressDialog(context);
+                    mProgressDialog.setMessage("Cargando..");
+                    mProgressDialog.setIndeterminate(true);
+                }
+                mProgressDialog.show();
+            }
+
+            @Override
+            public void onSuccess(DataSnapshot snapshot) {
+                if(snapshot.child(id).exists()) {
+                    nombreUsuario = (String) snapshot.child(id).child("name").getValue();
                     headerText.setText("Hola, " + nombreUsuario +"!");
+                }
+                if (mProgressDialog != null && mProgressDialog.isShowing()) {
+                    mProgressDialog.dismiss();
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onFailed(DatabaseError databaseError) {}
         });
 
     }

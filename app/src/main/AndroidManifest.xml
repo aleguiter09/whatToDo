@@ -21,8 +21,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatToDo">
-        <activity android:name=".NearestEventActivity"></activity>
-        <activity android:name=".MapActivity" />
+
+        <activity
+            android:name=".NearestEventActivity"
+            android:parentActivityName=".menus.MenuParticipantActivity" />
 
         <activity android:name=".PerfilOrganizadorActivity"
             android:parentActivityName=".menus.MenuOrganizerActivity"
@@ -42,6 +44,8 @@
             android:name=".TicketsListActivity"
             android:parentActivityName=".menus.MenuParticipantActivity"/>
 
+        <activity
+            android:name=".MapActivity" />
         <activity
             android:name=".CreateEventActivity"
             android:parentActivityName=".menus.MenuOrganizerActivity"/>
