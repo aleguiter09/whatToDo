@@ -8,9 +8,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <!-- MAKE ALARMS RESTART ON REBOOT -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- MAKE ALARMS RESTART ON REBOOT -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -21,15 +20,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatToDo">
-
+        <activity android:name=".EventosPasadosActivity"
+            android:parentActivityName=".menus.MenuParticipantActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
         <activity
             android:name=".NearestEventActivity"
             android:parentActivityName=".menus.MenuParticipantActivity" />
-
-        <activity android:name=".PerfilOrganizadorActivity"
+        <activity
+            android:name=".PerfilOrganizadorActivity"
             android:parentActivityName=".menus.MenuOrganizerActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-        />
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -37,18 +38,15 @@
         <activity
             android:name=".MapsActivityPopUp"
             android:label="@string/title_activity_maps_pop_up"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-            android:parentActivityName=".menus.MenuOrganizerActivity"/>
-
+            android:parentActivityName=".menus.MenuOrganizerActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity
             android:name=".TicketsListActivity"
-            android:parentActivityName=".menus.MenuParticipantActivity"/>
-
-        <activity
-            android:name=".MapActivity" />
+            android:parentActivityName=".menus.MenuParticipantActivity" />
+        <activity android:name=".MapActivity" />
         <activity
             android:name=".CreateEventActivity"
-            android:parentActivityName=".menus.MenuOrganizerActivity"/>
+            android:parentActivityName=".menus.MenuOrganizerActivity" />
         <activity
             android:name=".menus.MenuOrganizerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -114,7 +112,6 @@
         <service
             android:name=".Notificaciones.NotificationService"
             android:enabled="true" />
-
     </application>
 
 </manifest>

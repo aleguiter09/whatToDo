@@ -35,7 +35,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class MenuOrganizerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -142,21 +145,26 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
             }
 
             @Override
-            public void onSuccess(DataSnapshot snapshot) {
+            public void onSuccess(DataSnapshot snapshot) throws ParseException {
                 if (snapshot.exists()) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        String nombreEvento = ds.child("nombreEvento").getValue().toString();
-                        String descripcion = ds.child("descripcion").getValue().toString();
-                        String inicioEvento = ds.child("inicioEvento").getValue().toString();
-                        String finEvento = ds.child("finEvento").getValue().toString();
-                        String fechaEvento = ds.child("fechaEvento").getValue().toString();
-                        String ubicacion = ds.child("ubicacion").getValue().toString();
-                        String latitud = ds.child("latitud").getValue().toString();
-                        String longitud = ds.child("longitud").getValue().toString();
-                        String idOrganizador = ds.child("idOrganizador").getValue().toString();
 
-                        Evento e = new Evento(nombreEvento, descripcion, inicioEvento, finEvento, fechaEvento, idOrganizador, ubicacion, latitud, longitud);
-                        eventos.add(e);
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+
+                        if(esVigente(ds.child("fechaEvento").getValue().toString())) {
+
+                            String nombreEvento = ds.child("nombreEvento").getValue().toString();
+                            String descripcion = ds.child("descripcion").getValue().toString();
+                            String inicioEvento = ds.child("inicioEvento").getValue().toString();
+                            String finEvento = ds.child("finEvento").getValue().toString();
+                            String fechaEvento = ds.child("fechaEvento").getValue().toString();
+                            String ubicacion = ds.child("ubicacion").getValue().toString();
+                            String latitud = ds.child("latitud").getValue().toString();
+                            String longitud = ds.child("longitud").getValue().toString();
+                            String idOrganizador = ds.child("idOrganizador").getValue().toString();
+
+                            Evento e = new Evento(nombreEvento, descripcion, inicioEvento, finEvento, fechaEvento, idOrganizador, ubicacion, latitud, longitud);
+                            eventos.add(e);
+                        }
                     }
 
                     SerieRecyclerAdapter adapter = new SerieRecyclerAdapter(eventos, new Dialog(context), null);
@@ -170,5 +178,28 @@ public class MenuOrganizerActivity extends AppCompatActivity implements Navigati
             @Override
             public void onFailed(DatabaseError databaseError) {}
         });
+    }
+
+    public boolean esVigente(String fechaEvento) throws ParseException {
+
+        boolean retorno = true;
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat ("dd/MM/yyyy");
+
+        Calendar calendarHoy = Calendar.getInstance();
+
+        String dia = String.valueOf(calendarHoy.get(Calendar.DAY_OF_MONTH));
+        String mes = String.valueOf(calendarHoy.get(Calendar.MONTH));
+        String anio = String.valueOf(calendarHoy.get(Calendar.YEAR));
+
+        Date hoy = dateFormat.parse(dia + "/" + mes + "/" + anio);
+        Date dateEvento = dateFormat.parse(fechaEvento);
+        System.out.println("Date-1: " + dateFormat.format(hoy));
+        System.out.println("Date-2: " + dateFormat.format(dateEvento));
+
+        if(hoy.before(dateEvento))  retorno = true;
+        else retorno = false;
+
+        return retorno;
     }
 }

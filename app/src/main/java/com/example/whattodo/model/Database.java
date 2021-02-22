@@ -9,6 +9,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+
 public class Database {
     private DatabaseReference databaseReference;
 
@@ -25,7 +27,11 @@ public class Database {
         databaseReference.child(child).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listener.onSuccess(snapshot);
+                try {
+                    listener.onSuccess(snapshot);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
