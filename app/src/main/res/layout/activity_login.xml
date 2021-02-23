@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
-    android:background="@color/white">
+    android:background="@color/fondo_gris_oscuro">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -20,7 +20,8 @@
         app:title=" "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/black"/>
 
     <ImageView
         android:id="@+id/image"
@@ -49,7 +50,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image"
-        android:autofillHints="" />
+        android:autofillHints=""
+        android:textColor="@color/blanco"
+        android:textColorHint="@color/blanco"
+        android:backgroundTint="@color/color_fondo"/>
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -66,7 +70,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextName"
-        android:autofillHints="" />
+        android:autofillHints=""
+        android:textColor="@color/blanco"
+        android:textColorHint="@color/blanco"
+        android:backgroundTint="@color/color_fondo"/>
 
     <Button
         android:id="@+id/btnIniciarSesion"
@@ -80,7 +87,9 @@
         android:text="@string/btnIniciarSesion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
+        android:background="@color/rojoBotones"
+        android:textColor="@color/blanco"/>
 
     <TextView
         android:id="@+id/textView"
@@ -94,7 +103,8 @@
         android:text="@string/textViewNoTienesUsuario"
         app:layout_constraintEnd_toStartOf="@+id/textViewRegistrate"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnIniciarSesion" />
+        app:layout_constraintTop_toBottomOf="@+id/btnIniciarSesion"
+        android:textColor="@color/blanco"/>
 
     <TextView
         android:id="@+id/textViewRegistrate"

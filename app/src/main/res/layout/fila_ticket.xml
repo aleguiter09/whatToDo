@@ -14,11 +14,13 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    app:layout_constraintTop_toTopOf="parent"
+    android:background="@color/colorTicket">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorTicket">
 
         <ImageView
             android:id="@+id/imageEventTicket"
@@ -52,14 +54,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageEventTicket" />
+            app:layout_constraintTop_toBottomOf="@+id/imageEventTicket"
+            android:background="@color/color_fondo"
+            android:textColor="@color/blanco"/>
 
         <Button
             android:id="@+id/btnRecordatorio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="159dp"
+            android:layout_height="51dp"
             android:layout_marginTop="24dp"
-            android:text="Crear recordatorio"
+            android:background="@color/color_fondo"
+            android:text="@string/crear_recordatorio"
+            android:textColor="@color/blanco"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/verEventoBtn" />
@@ -80,7 +86,8 @@
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnRecordatorio"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            android:textColor="@color/blanco"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

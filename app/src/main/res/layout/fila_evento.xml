@@ -60,7 +60,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/verMas"
                 app:layout_constraintTop_toBottomOf="@+id/eventImage"
-                tools:background="@color/rojoBotones" />
+                tools:backgroundTint="@color/rojoBotones" />
 
             <TextView
                 android:id="@+id/nombreEvento"

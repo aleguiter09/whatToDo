@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".RegisterActivity">
+    tools:context=".RegisterActivity"
+    android:backgroundTint="@color/fondo_gris_oscuro">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarRegister"
@@ -19,7 +20,9 @@
         app:title=" "
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/black"
+        app:titleTextColor="@color/blanco"/>
 
     <ImageView
         android:id="@+id/image"
@@ -48,7 +51,10 @@
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image" />
+            app:layout_constraintTop_toBottomOf="@+id/image"
+            android:textColor="@color/blanco"
+            android:textColorHint="@color/blanco"
+            android:backgroundTint="@color/color_fondo"/>
 
     <EditText
         android:id="@+id/editTextPassword"
@@ -65,7 +71,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextName"
-        android:autofillHints="" />
+        android:autofillHints=""
+        android:textColor="@color/blanco"
+        android:textColorHint="@color/blanco"
+        android:backgroundTint="@color/color_fondo"/>
 
     <EditText
         android:id="@+id/editTextEmailAddress"
@@ -82,7 +91,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
-        android:autofillHints="" />
+        android:autofillHints=""
+        android:textColor="@color/blanco"
+        android:textColorHint="@color/blanco"
+        android:backgroundTint="@color/color_fondo"/>
 
         <RadioGroup
             android:id="@+id/radioGroup"
@@ -102,26 +114,32 @@
                 android:id="@+id/asistente"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/radioButtonAsistente" />
+                android:text="@string/radioButtonAsistente"
+                android:textColor="@color/blanco"
+                android:buttonTint="@color/blanco"/>
 
             <RadioButton
                 android:id="@+id/organizador"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/radioButtonOrganizador" />
+                android:text="@string/radioButtonOrganizador"
+                android:textColor="@color/blanco"
+                android:buttonTint="@color/blanco"/>
 
         </RadioGroup>
 
     <Button
         android:id="@+id/btnRegistrarse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="108dp"
+        android:layout_height="48dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
+        android:background="@color/rojoBotones"
         android:text="@string/btnRegistrarse"
+        android:textColor="@color/blanco"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
@@ -140,7 +158,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/textViewInicioSesion"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRegistrarse" />
+        app:layout_constraintTop_toBottomOf="@+id/btnRegistrarse"
+        android:textColor="@color/blanco" />
 
     <TextView
         android:id="@+id/textViewInicioSesion"

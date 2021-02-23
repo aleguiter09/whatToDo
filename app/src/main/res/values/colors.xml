@@ -12,5 +12,7 @@
     <color name="color_fondo">#4F5254</color>
     <color name="golden">#ffd700</color>
     <color name="fondo_gris_oscuro">#212121</color>
+    <color name="colorBotones">#AF0808</color>
+    <color name="colorTicket">#CD8C6D</color>
 
 </resources>

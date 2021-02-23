@@ -73,6 +73,8 @@
     <string name="x">X</string>
     <string name="por_organizador">Por organizador:</string>
     <string name="por_fecha">Por fecha:</string>
+    <string name="crear_recordatorio">Crear recordatorio</string>
+    <string name="guiones">---------------------</string>
 
 
 </resources>
